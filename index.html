@@ -60,6 +60,17 @@
     overflow-x: hidden;
     font-display: swap;
   }
+.wallpaper {
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,12)),
+    url("Images/Wallpaper.webp");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  z-index: -1;
+}
 
   /* ===== FUNDO — PERGAMINHO / TEXTURA DE COURO ===== */
   #parch-layer {
@@ -416,6 +427,7 @@
 </style>
 </head>
 <body>
+  <div class="wallpaper"></div>
   <div id="parch-layer"></div>
   <div id="vignette-layer"></div>
   <div id="torch-top"></div>
@@ -425,7 +437,7 @@
     <div class="hdr">
       <div class="crest" aria-hidden="true"></div>
       <div class="hdr-studio">WARHORSE STUDIOS · RPG MEDIEVAL DE MUNDO ABERTO · 1403, BOÊMIA</div>
-      <h1 class="hdr-title">KINGDOM COME: DELIVERANCE</h1>
+      <img src="Images/Logo.webp" alt="Abiotic Factor" class="hdr-logo">
       <div class="hdr-sub">GUIA DE PLATINA PT-BR</div>
       <div class="hdr-pills">
         <span class="pill" style="border-color: rgba(200,162,74,0.5); color: var(--gold-light)">TEM PLATINA</span>
