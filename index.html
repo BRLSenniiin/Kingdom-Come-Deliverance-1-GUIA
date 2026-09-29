@@ -50,16 +50,14 @@
 
   html { scroll-behavior: smooth; }
 
-  body {
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--parchment);
-    font-family: 'IM Fell English', Georgia, 'Times New Roman', serif;
-    font-size: 16px;
-    line-height: 1.5;
-    overflow-x: hidden;
-    font-display: swap;
-  }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Source Code Pro', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
 .wallpaper {
   position: fixed;
   inset: 0;
@@ -70,6 +68,14 @@
   background-size: cover;
   background-repeat: no-repeat;
   z-index: -1;
+}
+
+.hdr-logo {
+  display: block;
+  max-width: 320px;
+  width: 60%;
+  margin: 0 auto 4px;
+  filter: drop-shadow(0 0 20px rgba(0,224,96,0.53));
 }
 
   /* ===== FUNDO — PERGAMINHO / TEXTURA DE COURO ===== */
