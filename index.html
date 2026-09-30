@@ -4366,18 +4366,18 @@ body {
 
     // Categorias: define ícone e cor do pin. "icon" aceita emoji OU HTML, ex: '<img src="Images/Icons/food.svg">'.
     const CATS = {
-      locais:{l:'Vilas e Locais',i:'🏰',c:'#5c4c2f'}, quests:{l:'Missões',i:'📜',c:'#7a5a1e'},
-      npc:{l:'NPCs',i:'💬',c:'#6b3f2a'}, comerciante:{l:'Comerciantes',i:'💰',c:'#3d4a5c'},
-      tesouro:{l:'Tesouros',i:'🗝️',c:'#8a6a12'}, erva:{l:'Ervas',i:'🌿',c:'#3f5a2a'},
-      caca:{l:'Caça',i:'🦌',c:'#5c3a1e'}, livro:{l:'Livros',i:'📖',c:'#4a3a5c'},
-      minijogo:{l:'Minijogos',i:'🎲',c:'#2f4a4a'}, cavalo:{l:'Cavalos',i:'🐎',c:'#6b5a3a'},
-      viagem:{l:'Viagem Rápida',i:'🧭',c:'#2f4a5c'}, santuario:{l:'Santuários',i:'🕯️',c:'#5c4a2f'},
-      cruz:{l:'Cruzes de Conciliação',i:'✝️',c:'#4a4a4a'}, mapatesouro:{l:'Mapas do Tesouro',i:'🗺️',c:'#7a5a12'},
-      alquimia:{l:'Bancadas de Alquimia',i:'⚗️',c:'#3f5a4a',img:'Images/ICONES/Alquimia.webp'}, cama:{l:'Camas',i:'🛏️',c:'#5c3a4a'},
-      ferreiro:{l:'Ferreiros',i:'🔨',c:'#4a3a2f'}, boticario:{l:'Boticários',i:'🏺',c:'#3a5a5a'},
-      rebolo:{l:'Rebolos (Amolar)',i:'🔪',c:'#555b6e'}, arena:{l:'Arenas de Combate',i:'⚔️',c:'#7a2f2f'},
-      taverna:{l:'Tavernas',i:'🍺',c:'#6b4a1e'}, caverna:{l:'Cavernas',i:'🕳️',c:'#3a3a4a'},
-      acampamento:{l:'Acampamentos',i:'🏕️',c:'#5c4a3a'}, jardim:{l:'Jardins Florestais',i:'🌱',c:'#4a6a2a'},
+      locais:{l:'Vilas e Locais',i:'🏰',c:'#5c4c2f',img:'Images/ICONES/Locais.webp'}, quests:{l:'Missões',i:'📜',c:'#7a5a1e',img:'Images/ICONES/Quests.webp'},
+      npc:{l:'NPCs',i:'💬',c:'#6b3f2a',img:'Images/ICONES/Npc.webp'}, comerciante:{l:'Comerciantes',i:'💰',c:'#3d4a5c',img:'Images/ICONES/Comerciante.webp'},
+      tesouro:{l:'Tesouros',i:'🗝️',c:'#8a6a12',img:'Images/ICONES/Tesouro.webp'}, erva:{l:'Ervas',i:'🌿',c:'#3f5a2a',img:'Images/ICONES/Erva.webp'},
+      caca:{l:'Caça',i:'🦌',c:'#5c3a1e',img:'Images/ICONES/Caca.webp'}, livro:{l:'Livros',i:'📖',c:'#4a3a5c',img:'Images/ICONES/Livro.webp'},
+      minijogo:{l:'Minijogos',i:'🎲',c:'#2f4a4a',img:'Images/ICONES/Minijogo.webp'}, cavalo:{l:'Cavalos',i:'🐎',c:'#6b5a3a',img:'Images/ICONES/Cavalo.webp'},
+      viagem:{l:'Viagem Rápida',i:'🧭',c:'#2f4a5c',img:'Images/ICONES/Viagem.webp'}, santuario:{l:'Santuários',i:'🕯️',c:'#5c4a2f',img:'Images/ICONES/Santuario.webp'},
+      cruz:{l:'Cruzes de Conciliação',i:'✝️',c:'#4a4a4a',img:'Images/ICONES/Cruz.webp'}, mapatesouro:{l:'Mapas do Tesouro',i:'🗺️',c:'#7a5a12',img:'Images/ICONES/MapaTesouro.webp'},
+      alquimia:{l:'Bancadas de Alquimia',i:'⚗️',c:'#3f5a4a',img:'Images/ICONES/Alquimia.webp'}, cama:{l:'Camas',i:'🛏️',c:'#5c3a4a',img:'Images/ICONES/Cama.webp'},
+      ferreiro:{l:'Ferreiros',i:'🔨',c:'#4a3a2f',img:'Images/ICONES/Ferreiro.webp'}, boticario:{l:'Boticários',i:'🏺',c:'#3a5a5a',img:'Images/ICONES/Boticario.webp'},
+      rebolo:{l:'Rebolos (Amolar)',i:'🔪',c:'#555b6e',img:'Images/ICONES/Rebolo.webp'}, arena:{l:'Arenas de Combate',i:'⚔️',c:'#7a2f2f',img:'Images/ICONES/Arena.webp'},
+      taverna:{l:'Tavernas',i:'🍺',c:'#6b4a1e',img:'Images/ICONES/Taverna.webp'}, caverna:{l:'Cavernas',i:'🕳️',c:'#3a3a4a',img:'Images/ICONES/Caverna.webp'},
+      acampamento:{l:'Acampamentos',i:'🏕️',c:'#5c4a3a',img:'Images/ICONES/Acampamento.webp'}, jardim:{l:'Jardins Florestais',i:'🌱',c:'#4a6a2a',img:'Images/ICONES/Jardim.webp'},
       bandidos:{l:'Acampamentos de Bandidos',i:'🗡️',c:'#6b2a2a',img:'Images/ICONES/Bandidos.webp'}, carvoeiro:{l:'Carvoeiros',i:'🔥',c:'#4a3a2f',img:'Images/ICONES/Carvoeiro.webp'},
       escriba:{l:'Escribas',i:'✒️',c:'#4a3a5c',img:'Images/ICONES/Escriba.webp'}, banho:{l:'Casas de Banho',i:'🛁',c:'#3a5a6b',img:'Images/ICONES/Banho.webp'},
       acidente:{l:'Acidentes de Estrada',i:'💀',c:'#5c3a3a',img:'Images/ICONES/Acidente.webp'}, negociantecavalos:{l:'Negociantes de Cavalos',i:'🐴',c:'#6b5a3a',img:'Images/ICONES/NegocianteCavalos.webp'},
@@ -4388,9 +4388,9 @@ body {
       mina:{l:'Minas',i:'⛏️',c:'#555b6e',img:'Images/ICONES/Mina.webp'}, herbalista:{l:'Herbalistas',i:'🍃',c:'#3f5a2a',img:'Images/ICONES/Herbalista.webp'},
       hospedagem:{l:'Hospedagens',i:'🏠',c:'#5c3a4a',img:'Images/ICONES/Hospedagem.webp'}, arco:{l:'Campos de Tiro com Arco',i:'🏹',c:'#6b4a1e',img:'Images/ICONES/Arco.webp'},
       igreja:{l:'Igrejas',i:'⛪',c:'#4a3a5c',img:'Images/ICONES/Igreja.webp'}, desconhecido:{l:'Pontos Desconhecidos',i:'❓',c:'#3a3a4a',img:'Images/ICONES/Desconhecido.webp'},
-      atencao:{l:'Ponto de atenção',i:'⚠️',c:'#8a2323'},
+      atencao:{l:'Ponto de atenção',i:'⚠️',c:'#8a2323',img:'Images/ICONES/Atencao.webp'},
     };
-    const PESS = {l:'Pins Pessoais', i:'📌', c:'#555b6e'}; // categoria genérica dos pins pessoais
+    const PESS = {l:'Pins Pessoais', i:'📌', c:'#555b6e', img:'Images/ICONES/Pessoal.webp'}; // categoria genérica dos pins pessoais
 
     // Mapas. Cada um usa UM de três modos (nesta ordem de prioridade):
     //  1) tiles: {url,bounds,minzoom,maxzoom,tileSize} → tileset do MapTiler Engine (bounds = [oeste,sul,leste,norte])
@@ -4412,6 +4412,10 @@ body {
       // Vazio de propósito: use o "🎯 Modo Calibração" no mapa real para pegar x/y e adicione um objeto por pin aqui.
       { id:'alq-rattay', cat:'alquimia', mapId:'boemia', pt:{x:61.1,y:86.6}, name:'Bancada de Alquimia — Rattay', desc:'Bancada de alquimia perto de Rattay.' },
       { id:'bot-rattay', cat:'boticario', mapId:'boemia', pt:{x:61.17,y:86.31}, name:'Boticário — Rattay', desc:'Boticário perto de Rattay.' },
+      { id:'desc-rattay', cat:'desconhecido', mapId:'boemia', pt:{x:61.50,y:87.83}, name:'Ponto Desconhecido — Rattay', desc:'Ponto ainda sem identificação, perto de Rattay.' },
+      { id:'band-ledetchko-1', cat:'bandidos', mapId:'boemia', pt:{x:42.36,y:82.42}, name:'Acampamento de Bandidos — Ledetchko (1)', desc:'Acampamento de bandidos. Vila mais próxima no mapa: Ledetchko.' },
+      { id:'band-merhojed', cat:'bandidos', mapId:'boemia', pt:{x:42.68,y:27.27}, name:'Acampamento de Bandidos — Merhojed', desc:'Acampamento de bandidos perto de Merhojed.' },
+      { id:'band-ledetchko-2', cat:'bandidos', mapId:'boemia', pt:{x:40.87,y:75.88}, name:'Acampamento de Bandidos — Ledetchko (2)', desc:'Acampamento de bandidos. Vila mais próxima no mapa: Ledetchko. Exige Arrombamento (muito difícil).' },
     ];
 
     // ══════════════════════════════════════════════════════════════════
