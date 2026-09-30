@@ -5473,7 +5473,7 @@ body {
     let prog = jl('progresso',{}), pers = jl('pinsPessoais',[]);
     const achadoUrl = n => n ? ACHADOS_DIR + (/\.webp$/i.test(n) ? n : n + '.webp') : '';
     const POI = POIS.map(p => (p.achado && !p.img) ? Object.assign({}, p, {img:achadoUrl(p.achado)}) : p);
-    const S = { id:MAPS[0].id, hidden:new Set(), pend:false, allHidden:false, add:false, calib:false, fs:false, editId:null, tmp:null, cur:null };
+    const S = { id:MAPS[0].id, hidden:new Set(Object.keys(CATS)), pend:false, allHidden:false, add:false, calib:false, fs:false, editId:null, tmp:null, cur:null };
     let map = null, B = {west:0,south:-1,east:1,north:0}, z0 = 0, ents = [], tok = 0, calMk = null, fsY = 0, deb;
     const H0 = 0.1740373; // altura padrão (graus) para mapas de imagem única
     const imgBounds = a => [0, -H0, H0*a, 0];
@@ -5579,9 +5579,10 @@ body {
     function applyFilters() {
       const q = ($('search').value || '').toLowerCase().trim();
       ents.forEach(({poi, el}) => {
-        const ok = !S.allHidden && !S.hidden.has(poi.personal ? 'pessoal' : poi.cat) && (!S.pend || !prog[poi.id]) && (!q || (poi.name||'').toLowerCase().includes(q));
+        const ok = !S.allHidden && (q || !S.hidden.has(poi.personal ? 'pessoal' : poi.cat)) && (!S.pend || !prog[poi.id]) && (!q || (poi.name||'').toLowerCase().includes(q));
         el.style.display = ok ? '' : 'none';
       });
+      upHideBtn();
     }
     function upProg() {
       const o = POI.filter(p => p.mapId === S.id), d = o.filter(p => prog[p.id]).length, pc = o.length ? Math.round(d/o.length*100) : 0;
@@ -5601,7 +5602,8 @@ body {
 
     // ── Botões da lateral ──
     $('search').addEventListener('input', () => { clearTimeout(deb); deb = setTimeout(applyFilters, 150); });
-    $('hideBtn').onclick = () => { S.allHidden = !S.allHidden; $('hideBtn').classList.toggle('on', S.allHidden); $('hideBtn').textContent = S.allHidden ? '👁 Mostrar Todos' : '👁 Ocultar Todos'; applyFilters(); };
+    function upHideBtn() { const off = Object.keys(CATS).every(k => S.hidden.has(k)); $('hideBtn').classList.toggle('on', off); $('hideBtn').textContent = off ? '👁 Mostrar Todos' : '👁 Ocultar Todos'; }
+    $('hideBtn').onclick = () => { const off = Object.keys(CATS).every(k => S.hidden.has(k)); if (off) S.hidden.clear(); else Object.keys(CATS).concat('pessoal').forEach(k => S.hidden.add(k)); renderCats(); applyFilters(); };
     $('pendBtn').onclick = () => { S.pend = !S.pend; $('pendBtn').classList.toggle('on', S.pend); applyFilters(); };
     function notice(t) { $('notice').style.display = t ? 'block' : 'none'; $('notice').textContent = t || ''; }
     $('addBtn').onclick = () => {
