@@ -408,6 +408,8 @@ body {
   .mp .pin.ico img{width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 1px 3px #000c)}
   .mp .cat .cico{width:22px;height:22px;vertical-align:middle}
   .mp .pin.done{opacity:.45;filter:grayscale(.6)}
+  .mp .pw .ok{position:absolute;top:-5px;right:-9px;font:900 15px/1 sans-serif;color:#3ddc57;text-shadow:0 0 2px #000,0 0 3px #000;pointer-events:none;z-index:2}
+  .mp .pw .ok.ico{top:20px}
   .mp .pin.pers{border-style:dashed}
   .mp .ov{position:fixed;inset:0;z-index:100;display:none;background:rgba(0,0,0,.55);align-items:center;justify-content:center;padding:12px}
   .mp .ov.on{display:flex}
@@ -429,6 +431,7 @@ body {
    .mp .pin{width:38px;height:38px}
    .mp .pw{width:38px;height:46px}
    .mp .pin.ico{transform:translateY(27px)}
+   .mp .pw .ok.ico{top:22px}
    .mp .pin.ico img{width:38px;height:38px}
   }
   /* alvo do "Saiba mais" fica no guia (fora de .mp), por isso o flash é global */
@@ -4477,7 +4480,7 @@ body {
     // ── Pins ──
     function pinHTML(p) {
       const done = !p.personal && prog[p.id];
-      return '<div class="pin' + ((catInfo(p.cat) || {}).img ? ' ico' : '') + (done?' done':'') + (p.personal?' pers':'') + '" style="--c:' + colorOf(p) + '"><span>' + iconOf(p) + '</span></div>';
+      return '<div class="pin' + ((catInfo(p.cat) || {}).img ? ' ico' : '') + (done?' done':'') + (p.personal?' pers':'') + '" style="--c:' + colorOf(p) + '"><span>' + iconOf(p) + '</span></div>' + (done ? '<b class="ok' + ((catInfo(p.cat) || {}).img ? ' ico' : '') + '">✓</b>' : '');
     }
     function renderPins() {
       if (!map) return;
