@@ -406,6 +406,9 @@ body {
   .mp .pin.ico{background:none;border:0;border-radius:0;box-shadow:none;transform:translateY(25px)}
   .mp .pin.ico span{transform:none;display:grid;place-items:center;font-size:28px}
   .mp .pin.ico img{width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 1px 3px #000c)}
+  .mp .pin.lbl{position:absolute;left:50%;top:100%;width:auto;height:auto;background:none;border:0;border-radius:0;box-shadow:none;transform:translate(-50%,-50%);white-space:nowrap}
+  .mp .pin.lbl span{transform:none;font-size:28px}
+  .mp .pin.lbl img.nome{width:auto;height:var(--lbl-h,64px);max-width:none;object-fit:contain;filter:drop-shadow(0 1px 3px #000c)}
   .mp .cat .cico{width:22px;height:22px;vertical-align:middle}
   .mp .pin.done{opacity:.45;filter:grayscale(.6)}
   .mp .pw .ok{position:absolute;top:-5px;right:-9px;font:900 15px/1 sans-serif;color:#3ddc57;text-shadow:0 0 2px #000,0 0 3px #000;pointer-events:none;z-index:2}
@@ -463,6 +466,39 @@ body {
   /* .panel usa contain:content (vira containing block de position:fixed) — o mapa precisa de tela cheia real */
   #panel-mapas{contain:none;content-visibility:visible}
 
+
+  /* ── Dicas (sistema de cards) ── */
+  .dk-hero{display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding:20px;border:1px solid var(--iron-line);border-radius:16px;background:linear-gradient(135deg,var(--gold-dim),var(--bg-card) 60%);box-shadow:0 8px 24px #0006}
+  .dk-ht h2{margin:0 0 4px;font-size:1.35rem;color:var(--gold-light)}
+  .dk-ht p{margin:0;color:var(--parchment-dim);font-size:.9rem}
+  .dk-prog{min-width:190px;color:var(--parchment-dim);font-size:.85rem}
+  .dk-prog b{font-size:1.8rem;color:var(--gold-light);margin-right:6px}
+  .dk-bar{height:8px;margin-top:6px;border-radius:99px;background:var(--iron);overflow:hidden}
+  .dk-bar div{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width .4s}
+  .dk-tools{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 10px}
+  .dk-tools input{flex:1 1 220px;padding:11px 14px;border-radius:12px;border:1px solid var(--iron-line);background:var(--bg-card);color:var(--parchment);font:inherit}
+  .dk-tools input:focus{outline:2px solid var(--gold);outline-offset:1px}
+  .dk-ess,.dk-chip,.dk-done{cursor:pointer;font:inherit;color:var(--parchment);background:var(--bg-card-2);border:1px solid var(--iron-line);border-radius:99px;transition:.2s}
+  .dk-ess{padding:10px 16px}
+  .dk-ess.on,.dk-chip.on{background:var(--k,var(--gold));color:#15100a;border-color:var(--k,var(--gold));font-weight:700}
+  .dk-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .dk-chip{padding:7px 13px;font-size:.85rem}
+  .dk-chip:hover,.dk-ess:hover{border-color:var(--k,var(--gold));transform:translateY(-1px)}
+  .dk-chip small{opacity:.7;margin-left:2px}
+  .dk-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+  .dk-card{position:relative;display:flex;flex-direction:column;gap:8px;padding:16px 16px 14px;border-radius:16px;border:1px solid var(--iron-line);border-top:3px solid var(--k);background:linear-gradient(160deg,var(--bg-card-2),var(--bg-card));box-shadow:0 4px 14px #0005;transition:transform .2s,box-shadow .2s}
+  .dk-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px #000a,0 0 0 1px var(--k)}
+  .dk-card.ok{opacity:.6}
+  .dk-top{display:flex;align-items:center;gap:8px;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase}
+  .dk-ic{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;background:var(--bg);font-size:1.3rem;box-shadow:inset 0 0 0 1px var(--k)}
+  .dk-cat{color:var(--k);font-weight:700}
+  .dk-star{margin-left:auto;color:var(--gold-light);background:var(--gold-dim);padding:3px 8px;border-radius:99px}
+  .dk-card h3{margin:2px 0 0;font-size:1.02rem;color:var(--parchment)}
+  .dk-card p{margin:0;font-size:.88rem;line-height:1.5;color:var(--parchment-dim);flex:1}
+  .dk-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px;font-size:.72rem;color:var(--parchment-faint)}
+  .dk-done{padding:5px 12px;font-size:.78rem}
+  .dk-card.ok .dk-done,.dk-done:hover{background:var(--green);border-color:var(--green-light)}
+  .dk-empty{padding:30px;text-align:center;color:var(--parchment-dim);border:1px dashed var(--iron-line);border-radius:14px}
 </style>
 </head>
 <body>
@@ -645,147 +681,56 @@ body {
 
     <!-- ══════════════ DICAS ══════════════ -->
     <div class="panel" id="panel-dicas">
-      <div class="trophy-note">
-        Duas seções aqui: primeiro, dicas gerais pra sobreviver às primeiras horas sem sofrer tanto quanto a
-        comunidade sofreu; depois, as dicas específicas pra facilitar a caça de troféus. As duas se complementam,
-        mas servem propósitos diferentes.
-      </div>
 
-      <!-- DICAS GERAIS -->
-      <div class="mono-label" style="color: var(--gold-light)">🎓 PRIMEIRAS HORAS — SOBREVIVENDO À BOÊMIA</div>
-
-      <div class="phase-card">
-        <div class="phase-hdr"><span class="phase-num">🗣</span><span class="phase-title">Fale antes de lutar</span></div>
-        <div class="phase-body">
-          Isso não é Skyrim: combate no início do jogo é brutalmente punitivo, e Henry começa sem saber empunhar
-          nada direito. Sempre que der, resolva pela conversa — você tem três "armas" sociais diferentes:
-          <strong>intimidação</strong> (sobe se você anda sujo, ensanguentado e de armadura pesada),
-          <strong>charme</strong> (sobe limpo, bem vestido, descansado e sóbrio) e <strong>reputação</strong>
-          (constrói com o tempo ajudando a região). Guarde a espada pra quando não tiver saída.
-        </div>
+      <div class="dk-hero">
+        <div class="dk-ht"><h2>Dicas para facilitar o jogo</h2><p>Atalhos práticos de jogadores e guias. Marque as que já aplicou.</p></div>
+        <div class="dk-prog"><b id="dkN">0</b><span>de <i id="dkT">0</i> aplicadas</span><div class="dk-bar"><div id="dkB"></div></div></div>
       </div>
-
-      <div class="phase-card">
-        <div class="phase-hdr"><span class="phase-num">💾</span><span class="phase-title">Como salvar o jogo</span></div>
-        <div class="phase-body">
-          Não existe "salvar rápido" livre aqui. Você tem 3 formas: <strong>save automático</strong> (acontece
-          sozinho em pontos-chave de missões, geralmente antes de algo perigoso), <strong>dormir</strong> numa cama
-          que seja sua ou alugada, ou beber uma dose de <strong>Vinho da Salvação (Saviour Schnapps)</strong> —
-          item comprável ou fabricável em Alquimia, único jeito de salvar manualmente em qualquer lugar/hora.
-          Antes de fazer algo arriscado (invadir, roubar, brigar), garanta que tem uma dessas três opções à mão.
-        </div>
+      <div class="dk-tools">
+        <input id="dkSearch" type="search" placeholder="🔎 Buscar dica (ex.: dinheiro, arco, ler)" autocomplete="off">
+        <button id="dkEss" type="button" class="dk-ess">⭐ Só essenciais</button>
       </div>
-
-      <div class="phase-card">
-        <div class="phase-hdr"><span class="phase-num">🧼</span><span class="phase-title">Cuide de Henry como gente de verdade</span></div>
-        <div class="phase-body">
-          Fome, sono e higiene não são só barrinhas de status: comida de qualidade sustenta mais tempo que um pedaço
-          de pão velho, dormir numa cama de verdade rende mais que palha no chão, e um banho na casa de banho vale
-          muito mais que um mergulho num rio gelado. Isso tudo afeta diretamente o Carisma (aba Equipamentos) e a
-          disposição de Henry no dia a dia — negligenciar isso cedo demais custa caro depois.
-        </div>
-      </div>
-
-      <div class="phase-card">
-        <div class="phase-hdr"><span class="phase-num">🎯</span><span class="phase-title">Não existe build errada — quase tudo treina alguma coisa</span></div>
-        <div class="phase-body">
-          Colher erva sobe Herbalismo, beber sobe Bebida, ler sobe Leitura — praticamente qualquer ação vira XP em
-          algo. Não tem problema variar bastante nas primeiras horas pra descobrir o que você gosta antes de focar.
-          Detalhes completos de perícias/perks e arquétipos de build prontos estão nas abas Habilidades & Perks e
-          Combate & Builds.
-        </div>
-      </div>
-
-      <div class="phase-card">
-        <div class="phase-hdr"><span class="phase-num">⚖</span><span class="phase-title">Moralidade tem peso de verdade</span></div>
-        <div class="phase-body">
-          Diferente de outros RPGs onde dá pra fazer qualquer missão sem consequência, aqui os NPCs reagem ao que
-          Henry anda fazendo — envolver-se com gente de má fama fecha portas com gente de boa fama, e vice-versa.
-          Já no primeiro dia em Rattay você recebe um convite pra jogar lama na casa de alguém: pense antes de
-          aceitar qualquer coisa assim. Detalhes completos do sistema estão na aba Reputação.
-        </div>
-      </div>
-
-      <div class="phase-card">
-        <div class="phase-hdr"><span class="phase-num">✅</span><span class="phase-title">5 coisas pra fazer / evitar logo no início</span></div>
-        <div class="phase-body">
-          <strong class="gold">Faça:</strong> fale com todo mundo (diálogo sobe Fala de graça); visite o escriba
-          assim que puder pra aprender a ler; guarde um pouco de dinheiro em vez de gastar tudo em equipamento caro
-          cedo; explore ao lado das missões principais, não só nelas; confira o inventário/atributos com calma pra
-          entender o que cada perk faz antes de escolher.<br/><br/>
-          <strong class="red">Evite:</strong> brigar com grupo de bandidos ou soldados de armadura pesada nas
-          primeiras horas; roubar sendo visto sem plano de fuga; gastar toda a grana num equipamento único; ignorar
-          fome/sono até render um debuff; e tentar "zerar" uma perícia grindando artificialmente antes de aprender a
-          mecânica de verdade — a curva de aprendizado é parte do jogo.
-        </div>
-      </div>
-
-      <!-- DICAS DE TROFEUS -->
-      <div class="mono-label" style="color: var(--gold-light)">🏆 DICAS FOCADAS EM TROFÉUS</div>
-
-      <div class="phase-card">
-        <div class="phase-hdr"><span class="phase-num">🗣</span><span class="phase-title">Retórica é a melhor habilidade do jogo</span></div>
-        <div class="phase-body">
-          Escolha Retórica como habilidade inicial (dois níveis de bônus imediato). Sempre esgote os diálogos com
-          NPCs e sempre pechinche com mercadores — isso sobe Retórica organicamente. Retórica alta permite fugir de
-          combates inteiros por conversa, o que ajuda demais em <strong>Misericordioso</strong> e <strong>Rei
-          Encantador</strong>.
-        </div>
-      </div>
-      <div class="phase-card">
-        <div class="phase-hdr"><span class="phase-num">👊</span><span class="phase-title">Combate não-letal</span></div>
-        <div class="phase-body">
-          Para <strong>Misericordioso</strong>, use apenas <strong>punhos nus</strong> ou armas contundentes (porrete).
-          Confira o tipo de dano da arma (dano contundente não mata, corte/perfuração sim). Golpes furtivos por trás
-          nocauteiam em vez de matar e também contam para <strong>Assassino Furtivo</strong>.
-        </div>
-      </div>
-      <div class="phase-card">
-        <div class="phase-hdr"><span class="phase-num">⏳</span><span class="phase-title">Use o "Aguardar" (Touchpad/menu), não a cama</span></div>
-        <div class="phase-body">
-          Para troféus de tempo/nutrição (Insone, Empanturrado, Anoréxico, Alcoólatra), use a função de <strong>Aguardar</strong>
-          em vez de dormir em camas. Dormir cria um save automático a cada avanço de tempo; Aguardar não cria save,
-          então depois de pegar o troféu você pode recarregar o último save e recuperar comida/dinheiro gastos.
-        </div>
-      </div>
-      <div class="phase-card">
-        <div class="phase-hdr"><span class="phase-num">📖</span><span class="phase-title">Aprenda a ler cedo (mas não rápido demais)</span></div>
-        <div class="phase-body">
-          A missão secundária "Mais Forte que a Espada" ensina Henry a ler. Faça-a assim que possível para destravar
-          <strong>Rato de Biblioteca</strong> e ajudar em <strong>Bardo</strong> (livros aumentam Retórica). Porém, se
-          for pegar as expansões, <strong class="gold">não aprenda a ler antes de reconstruir Pribyslavitz</strong> —
-          "Tentativa e Erro" exige reconstruir tudo <strong>sem saber ler</strong>.
-        </div>
-      </div>
-      <div class="phase-card">
-        <div class="phase-hdr"><span class="phase-num">🎯</span><span class="phase-title">Farme combos e headshots em locais fixos</span></div>
-        <div class="phase-body">
-          Para <strong>Lutador</strong>, treine combos de espada com o Capitão Bernard na Arena de Combate de Rattay —
-          muito mais rápido do que brigar com bandidos. Para <strong>Atirador de Elite</strong>, ataque acampamentos
-          de bandidos à noite quando estão dormindo, ou espere-os se aproximar até 1 metro de distância antes de
-          mirar na cabeça.
-        </div>
-      </div>
-      <div class="phase-card">
-        <div class="phase-hdr"><span class="phase-num">💰</span><span class="phase-title">Tesouros escondidos aceleram tudo</span></div>
-        <div class="phase-body">
-          Existem baús de tesouro com mapas espalhados pelo mundo que rendem milhares de Groschen rapidamente —
-          essenciais para <strong>Avarento</strong> (5.000 Groschen guardados), <strong>Regateador</strong> (2.000
-          economizados pechinchando) e para comprar receitas de alquimia caras para <strong>Edward Kelly</strong>.
-          Consulte um guia de localizações de tesouro à parte se quiser acelerar a economia.
-        </div>
-      </div>
-      <div class="phase-card">
-        <div class="phase-hdr"><span class="phase-num">🌿</span><span class="phase-title">Ervas e o "Peregrino" rendem com paciência</span></div>
-        <div class="phase-body">
-          Colher 10.000 ervas fica muito mais rápido conforme a habilidade de Herbalismo sobe (você coleta várias por
-          toque). Para <strong>Peregrino</strong>, percorra estradas e trilhas de floresta a cavalo com atenção — os
-          cruzeiros e cruzes votivas costumam ficar à beira do caminho, e é preciso <strong>interagir</strong> com
-          eles, não só descobri-los no mapa.
-        </div>
-      </div>
+      <div id="dkChips" class="dk-chips"></div>
+      <div id="dkGrid" class="dk-grid"></div>
+      <div id="dkEmpty" class="dk-empty" style="display:none">Nenhuma dica encontrada. Limpe a busca ou troque o filtro.</div>
+      <div class="link-row" style="margin-top:14px">▸ Fontes: Steam (Hieronymous Alloy, "Hint Book"), PLITCH e o conteúdo anterior desta aba.</div>
     </div>
     <!-- /panel-dicas -->
+    <script>
+(function () {
+  var C = {all:['Todas','✨','#e9cd85'],ini:['Início','🧭','#7d9457'],din:['Dinheiro','💰','#c8a24a'],cmb:['Combate','⚔️','#c74f3f'],fur:['Furtividade','🌑','#8a93a0'],per:['Perícias','📖','#6aa6c9'],eqp:['Equipamento','🛡️','#b08d57'],cav:['Cavalos','🐎','#a0764f'],sob:['Sobrevivência','🍖','#9aa860'],rep:['Reputação','🤝','#c98ab0'],tro:['Troféus','🏆','#cfd8e0']};
+  var SN = {S:'Steam',P:'PLITCH',G:'Guia'};
+  var T = [["ini","💾","Salve do jeito certo","Há 3 formas: save automático, dormir em cama sua (ou alugada) e o Vinho da Salvação (comprável ou feito na Alquimia). Cama que não é sua não salva. Antes de roubar, arrombar ou brigar, garanta uma dessas.","GPS",1],["ini","🗣","Fale antes de lutar","No começo Henry luta mal. Resolva na conversa: intimidação sobe sujo e armado, charme sobe limpo e bem vestido. Se tiver que lutar, não pare de se mover e misture golpe forte com rápido.","GP",1],["ini","🥋","Volte ao Capitão Bernard","Esquiva, bloqueio perfeito, contra-ataque e golpes mestres só são liberados com ele. Depois de \"Ruivo em Apuros\" ele fica no ringue de Rattay: treine até destravar tudo. Quem esquece fica horas sem combos.","S",1],["ini","⭐","Comece com Retórica (Fala)","Escolha Fala nas duas escolhas iniciais: os outros atributos sobem fácil em combate. Dialogar com todos e pechinchar sobe Retórica de graça e ajuda em Misericordioso e Rei Encantador.","GS",0],["ini","🧺","Guarde peso em baús","Largado no chão, o item some. Use o baú da cozinha do Henry no prólogo (fica salvo) e os baús ligados às camas que você possui, que funcionam como um estoque só.","S",0],["ini","⏸","Menu não pausa o tempo","O tempo corre enquanto você está nos menus. Para pausar de verdade, use a pausa do jogo.","S",0],["din","💎","Mapas do tesouro","São cerca de 30 e rendem muito Groschen e equipamento logo no começo. Cuidado: o equipamento dos mapas (principalmente os Antigos) pode deixar o jogo no modo fácil. Também é a base para Avarento e Regateador.","SG",1],["din","🌸","Venda ervas no início","Enquanto espera o Kunesh acordar, colha flores e venda aos comerciantes da vila: dá umas centenas de Groschen e já treina Herbalismo.","S",0],["din","🏹","Caça rende dinheiro","Peles e chifres vendem bem, mas carne de caça grande não vai para comerciante comum. Carne estraga rápido: venda logo. Andar de costas procurando caça costuma achar bicho mais rápido.","PS",0],["din","🕵","Receptadores e marca de roubado","Quem tem loja interna (comerciante da vila inicial, moleiro de Rattay) compra roubo. Para tirar a marca \"roubado\": cozinhe a carne, guarde alguns dias em baú ou venda e recompre perdendo um pouco. Se for visto, perde reputação.","S",0],["din","🎲","Dados: NPC erra","Os NPCs jogam mal. Procure o Odd Die (dado viciado para 1, 3 e 5) e salve antes de apostar. Cada jogador tem pouco dinheiro, então não dá para enriquecer só nisso.","S",0],["din","🔧","Afie para vender mais","Armas afiadas no rebolo valem mais. Afie toda arma saqueada antes de vender: sobe Manutenção e o preço.","S",0],["cmb","⚔","Estocada até cansar","Em duelo 1 contra 1, use a estocada repetidamente até acabar o fôlego, recue até recuperar e volte a estocar. Funciona até desarmado.","S",1],["cmb","🛡","Esquive e bloqueie perfeito","Bloqueio comum gasta muito fôlego; esquivar gasta menos. O bloqueio perfeito não gasta, e é mais fácil olhando o inimigo do que esperando o ícone verde.","S",0],["cmb","🎯","Arma certa para a armadura","Corte funciona contra tecido, estocada contra malha ou pontos fracos, contundente (maça) contra placa. Mire no rosto, repita no mesmo ponto e ataque de terreno alto.","SP",0],["cmb","🏹","Arco sem segurar a flecha","Solte quando o arco terminar de puxar e o balanço lateral voltar ao centro. Compense a queda da flecha mirando um pouco acima. Se errar o tempo, cancele e recomece.","S",0],["cmb","👥","Vários inimigos","Evite. Se não der: fique em movimento, mate primeiro os fracos, pegue pelos flancos e use terreno e gargalos para enfrentar um por vez.","S",0],["fur","🌑","Roupa escura e sem joias","Só a camada de cima conta para visibilidade, mas toda armadura faz barulho. Tire anel, colar e esporas e esconda o brilho de metal. Atrás do alvo, agacha e finalize.","S",1],["fur","🏕","Acampamentos","Adaga costuma acordar quem está perto. Melhor: flecha de longe, derrubar patrulheiros isolados ou envenenar a comida logo antes de todos acordarem. Cachorro: largue carne fresca (ou com poção Lullaby).","S",0],["fur","🔓","Padfoot e baús de comerciantes","O baú de estoque do comerciante pede Arrombar 15. A poção Padfoot dá +5 temporário, o bastante para quem está perto.","S",0],["per","📖","Aprenda a ler cedo","Leia sentado (bônus) e comece pelos livros comuns: eles sobem Leitura e os livros de habilidade passam a ser lidos mais rápido. Cuidado com o DLC: veja a dica de troféu abaixo.","SG",1],["per","⚗","Alquimia tem um erro grátis","Todo o tempo de fogo conta como um erro só, então dá para ignorar esse passo e acertar o resto. Receitas novas dão mais XP. Marigold cura bem; Padfoot e NightHawk ajudam na furtividade.","S",0],["per","🌿","Ervas e pulos","Colher ervas no começo dá um perk de +2 Vitalidade. Pular repetidamente também sobe Vitalidade. Flower Power exige 30 ervas \"flor\" no inventário.","S",0],["per","💪","Treino e livros dão \"pontos\"","Treinadores pagos e livros dão o XP equivalente a um ponto daquele nível: perdem valor quando a perícia já está alta. Bernard treina Força, Agilidade e Vitalidade de graça.","S",0],["per","⚠","Perks com troca","Atributos têm teto 20: perks do tipo \"+X numa coisa, −X em outra\" viram só penalidade no fim. Prefira perks sem desvantagem.","S",0],["eqp","🪖","Peso e velocidade","Armadura pesada reduz sua velocidade. Fora de luta, roupa leve costuma dar mais Carisma e mais agilidade. Na hora de lutar, vista a armadura.","S",0],["eqp","🗡","Espada longa não combina com escudo","Os combos da espada longa precisam das duas mãos. Com escudo, prefira espada curta ou foque em estocadas.","S",0],["cav","🐎","Equipamento antes do cavalo","A Sela Nobre com 4 alforjes deixa até o cavalo inicial veloz, porque pesa menos, e ainda carrega mais. Cavalo trocado volta ao estábulo de origem.","S",0],["sob","🍖","Comida e envenenamento","Comida seca dura bem mais e pesa menos. Alimento abaixo de 50 de durabilidade pode envenenar: durma numa cama ou tome antídoto, e venda o estragado em vez de comer. Panelas de sopa fora de vilas são grátis.","PS",0],["sob","🧼","Cuide de Henry","Comida boa, cama de verdade e banho nas casas de banho valem mais que o básico e afetam o Carisma. Ignorar fome e sono por muito tempo cobra depois.","G",0],["rep","🤝","Subindo e baixando reputação","Sobe: missões e atividades, pagar a mais ao lojista, dar esmola, jogar maçã nas panelas. Desce: crime visto, regatear sem fechar negócio, comer da panela sem dar maçã, atropelar gente a cavalo. Reputação alta ajuda em todo teste de conversa.","S",0],["tro","⏳","Aguardar, não a cama","Para Insone, Empanturrado, Anoréxico e Alcoólatra, use Aguardar (Touchpad/menu): dormir cria autosave a cada passo, Aguardar não. Depois do troféu, recarregue o último save e recupere comida e dinheiro.","G",1],["tro","👊","Combate não letal","Para Misericordioso use só punhos ou armas contundentes (confira o tipo de dano). Golpe furtivo por trás nocauteia e também conta para Assassino Furtivo.","G",1],["tro","📖","Aprenda a ler (mas não rápido demais)","\"Mais Forte que a Espada\" ensina Henry a ler: faça cedo para Rato de Biblioteca e Bardo. Com o DLC, não aprenda antes de reconstruir Pribyslavitz: Tentativa e Erro exige reconstruir tudo sem saber ler.","G",1],["tro","🎯","Combos e headshots em lugar fixo","Para Lutador, treine combos com o Capitão Bernard na Arena de Rattay. Para Atirador de Elite, ataque acampamentos à noite ou espere o alvo chegar a 1 metro.","G",0],["tro","🌿","Peregrino e 10.000 ervas","Herbalismo alto faz colher várias ervas por toque. Para Peregrino, passe a cavalo pelas trilhas e interaja com os cruzeiros e cruzes votivas, não basta descobri-los no mapa.","G",0]];
+  var $ = function (id) { return document.getElementById(id); };
+  var cat = 'all', ess = false, done = {};
+  try { done = JSON.parse(localStorage.getItem('kcd_dicas_ok') || '{}') || {}; } catch (e) { done = {}; }
+  function save() { try { localStorage.setItem('kcd_dicas_ok', JSON.stringify(done)); } catch (e) {} }
+  function chips() {
+    $('dkChips').innerHTML = Object.keys(C).map(function (k) {
+      var n = k === 'all' ? T.length : T.filter(function (t) { return t[0] === k; }).length;
+      return '<button type="button" class="dk-chip' + (k === cat ? ' on' : '') + '" data-k="' + k + '" style="--k:' + C[k][2] + '">' + C[k][1] + ' ' + C[k][0] + ' <small>' + n + '</small></button>';
+    }).join('');
+  }
+  function prog() {
+    var n = T.filter(function (t, i) { return done[i]; }).length;
+    $('dkN').textContent = n; $('dkT').textContent = T.length; $('dkB').style.width = (T.length ? n / T.length * 100 : 0) + '%';
+  }
+  function draw() {
+    var q = $('dkSearch').value.toLowerCase().trim(), out = '', shown = 0;
+    T.forEach(function (t, i) {
+      if ((cat !== 'all' && t[0] !== cat) || (ess && !t[5]) || (q && (t[2] + ' ' + t[3]).toLowerCase().indexOf(q) < 0)) return;
+      shown++;
+      out += '<article class="dk-card' + (done[i] ? ' ok' : '') + '" style="--k:' + C[t[0]][2] + '"><div class="dk-top"><span class="dk-ic">' + t[1] + '</span><span class="dk-cat">' + C[t[0]][0] + '</span>' + (t[5] ? '<span class="dk-star" title="Essencial">⭐ Essencial</span>' : '') + '</div><h3>' + t[2] + '</h3><p>' + t[3] + '</p><div class="dk-foot"><span class="dk-src">' + t[4].split('').map(function (x) { return SN[x]; }).join(' · ') + '</span><button type="button" class="dk-done" data-i="' + i + '">' + (done[i] ? '✔ Aplicada' : '○ Marcar') + '</button></div></article>';
+    });
+    $('dkGrid').innerHTML = out; $('dkEmpty').style.display = shown ? 'none' : 'block'; prog();
+  }
+  $('dkChips').addEventListener('click', function (e) { var b = e.target.closest('.dk-chip'); if (!b) return; cat = b.dataset.k; chips(); draw(); });
+  $('dkSearch').addEventListener('input', draw);
+  $('dkEss').addEventListener('click', function () { ess = !ess; this.classList.toggle('on', ess); draw(); });
+  $('dkGrid').addEventListener('click', function (e) { var b = e.target.closest('.dk-done'); if (!b) return; var i = b.dataset.i; if (done[i]) delete done[i]; else done[i] = 1; save(); draw(); });
+  chips(); draw();
+})();
+</script>
 
     <!-- ══════════════ TROFÉUS ══════════════ -->
     <div class="panel" id="panel-trofeus">
@@ -1831,7 +1776,7 @@ body {
         </div>
         <div class="t-body">
           <div class="t-name">Padre Godwin</div>
-          <div class="t-desc">Padre de Rattay, ligado à missão principal "Caminhos Misteriosos" (e a uma noite bem regada a bebida).</div>
+          <div class="t-desc">Padre de Uzhitz, ligado à missão principal "Caminhos Misteriosos" (e a uma noite bem regada a bebida).</div>
         </div>
       </div>
       <div class="trophy-row tipo-ouro">
@@ -3810,7 +3755,7 @@ body {
       { vila: 'Sasau', nome: 'Dono da Casa de Banho de Sasau', especialidade: 'Vitalidade + serviços de banho', img: 'DonoCasaBanhoSasau.webp' },
       { vila: 'Sasau', nome: 'Irmão Nicodemus', especialidade: 'Alquimia', img: 'IrmaoNicodemus.webp' },
       { vila: 'Sasau', nome: 'Mestre dos Afrescos', especialidade: 'Bebida', img: 'MestreAfrescos.webp' },
-      { vila: 'Sasau', nome: 'Padre Godwin', especialidade: 'Missão principal "Caminhos Misteriosos"', img: 'PadreGodwin.webp' },
+      { vila: 'Uzhitz', nome: 'Padre Godwin', especialidade: 'Missão principal "Caminhos Misteriosos"', img: 'PadreGodwin.webp' },
       { vila: 'Talmberg', nome: 'Ferreiro-espadeiro Fink', especialidade: 'Manutenção', img: 'FerreiroEspadeiroFink.webp' },
       { vila: 'Talmberg', nome: 'Konrad Hagen', especialidade: 'Força', img: 'KonradHagen.webp' },
       { vila: 'Talmberg', nome: 'Moleiro Woyzeck', especialidade: 'Arrombamento — receptador de item roubado', img: 'MoleiroWoyzeck.webp' },
@@ -4366,29 +4311,34 @@ body {
 
     // Categorias: define ícone e cor do pin. "icon" aceita emoji OU HTML, ex: '<img src="Images/Icons/food.svg">'.
     const CATS = {
-      locais:{l:'Vilas e Locais',i:'🏰',c:'#5c4c2f',img:'Images/ICONES/Locais.webp'}, quests:{l:'Missões',i:'📜',c:'#7a5a1e',img:'Images/ICONES/Quests.webp'},
-      npc:{l:'NPCs',i:'💬',c:'#6b3f2a',img:'Images/ICONES/Npc.webp'}, comerciante:{l:'Comerciantes',i:'💰',c:'#3d4a5c',img:'Images/ICONES/Comerciante.webp'},
-      tesouro:{l:'Tesouros',i:'🗝️',c:'#8a6a12',img:'Images/ICONES/Tesouro.webp'}, erva:{l:'Ervas',i:'🌿',c:'#3f5a2a',img:'Images/ICONES/Erva.webp'},
-      caca:{l:'Caça',i:'🦌',c:'#5c3a1e',img:'Images/ICONES/Caca.webp'}, livro:{l:'Livros',i:'📖',c:'#4a3a5c',img:'Images/ICONES/Livro.webp'},
+      locais:{l:'Vilas e Locais',i:'🏰',c:'#5c4c2f',img:'Images/ICONES/cities.webp'}, quests:{l:'Missões',i:'📜',c:'#7a5a1e',img:'Images/ICONES/quest.webp'},
+      npc:{l:'NPCs',i:'💬',c:'#6b3f2a',img:'Images/ICONES/Npc.webp'}, comerciante:{l:'Comerciantes',i:'💰',c:'#3d4a5c',img:'Images/ICONES/trader.webp'},
+      tesouro:{l:'Tesouros',i:'🗝️',c:'#8a6a12',img:'Images/ICONES/treasure_chest.webp'}, erva:{l:'Ervas',i:'🌿',c:'#3f5a2a',img:'Images/ICONES/gathering.webp'},
+      cacacervos:{l:'Caça de Cervos',i:'🦌',c:'#5c3a1e',img:'Images/ICONES/deer_hunting_spot.webp'}, cacajavalis:{l:'Caça de Javalis',i:'🐗',c:'#4a3a2f',img:'Images/ICONES/boar_hunting_spot.webp'}, livro:{l:'Livros',i:'📖',c:'#4a3a5c',img:'Images/ICONES/Livro.webp'},
       minijogo:{l:'Minijogos',i:'🎲',c:'#2f4a4a',img:'Images/ICONES/Minijogo.webp'}, cavalo:{l:'Cavalos',i:'🐎',c:'#6b5a3a',img:'Images/ICONES/Cavalo.webp'},
-      viagem:{l:'Viagem Rápida',i:'🧭',c:'#2f4a5c',img:'Images/ICONES/Viagem.webp'}, santuario:{l:'Santuários',i:'🕯️',c:'#5c4a2f',img:'Images/ICONES/Santuario.webp'},
-      cruz:{l:'Cruzes de Conciliação',i:'✝️',c:'#4a4a4a',img:'Images/ICONES/Cruz.webp'}, mapatesouro:{l:'Mapas do Tesouro',i:'🗺️',c:'#7a5a12',img:'Images/ICONES/MapaTesouro.webp'},
-      alquimia:{l:'Bancadas de Alquimia',i:'⚗️',c:'#3f5a4a',img:'Images/ICONES/Alquimia.webp'}, cama:{l:'Camas',i:'🛏️',c:'#5c3a4a',img:'Images/ICONES/Cama.webp'},
-      ferreiro:{l:'Ferreiros',i:'🔨',c:'#4a3a2f',img:'Images/ICONES/Ferreiro.webp'}, boticario:{l:'Boticários',i:'🏺',c:'#3a5a5a',img:'Images/ICONES/Boticario.webp'},
-      rebolo:{l:'Rebolos (Amolar)',i:'🔪',c:'#555b6e',img:'Images/ICONES/Rebolo.webp'}, arena:{l:'Arenas de Combate',i:'⚔️',c:'#7a2f2f',img:'Images/ICONES/Arena.webp'},
-      taverna:{l:'Tavernas',i:'🍺',c:'#6b4a1e',img:'Images/ICONES/Taverna.webp'}, caverna:{l:'Cavernas',i:'🕳️',c:'#3a3a4a',img:'Images/ICONES/Caverna.webp'},
-      acampamento:{l:'Acampamentos',i:'🏕️',c:'#5c4a3a',img:'Images/ICONES/Acampamento.webp'}, jardim:{l:'Jardins Florestais',i:'🌱',c:'#4a6a2a',img:'Images/ICONES/Jardim.webp'},
-      bandidos:{l:'Acampamentos de Bandidos',i:'🗡️',c:'#6b2a2a',img:'Images/ICONES/Bandidos.webp'}, carvoeiro:{l:'Carvoeiros',i:'🔥',c:'#4a3a2f',img:'Images/ICONES/Carvoeiro.webp'},
-      escriba:{l:'Escribas',i:'✒️',c:'#4a3a5c',img:'Images/ICONES/Escriba.webp'}, banho:{l:'Casas de Banho',i:'🛁',c:'#3a5a6b',img:'Images/ICONES/Banho.webp'},
-      acidente:{l:'Acidentes de Estrada',i:'💀',c:'#5c3a3a',img:'Images/ICONES/Acidente.webp'}, negociantecavalos:{l:'Negociantes de Cavalos',i:'🐴',c:'#6b5a3a',img:'Images/ICONES/NegocianteCavalos.webp'},
-      artesao:{l:'Artesãos e Lojas',i:'⚒️',c:'#4a4a3a',img:'Images/ICONES/Artesao.webp'},
-      interesse:{l:'Locais de Interesse',i:'🔎',c:'#5c4c2f',img:'Images/ICONES/Interesse.webp'}, ninho:{l:'Ninhos',i:'🥚',c:'#5c4a3a',img:'Images/ICONES/Ninho.webp'},
-      tumulo:{l:'Túmulos',i:'⚰️',c:'#4a4a4a',img:'Images/ICONES/Tumulo.webp'}, armadilhapeixe:{l:'Armadilhas de Peixe',i:'🧺',c:'#3a5a6b',img:'Images/ICONES/ArmadilhaPeixe.webp'},
-      colmeia:{l:'Colmeias',i:'🐝',c:'#8a6a12',img:'Images/ICONES/Colmeia.webp'}, pesca:{l:'Pontos de Pesca',i:'🎣',c:'#2f4a5c',img:'Images/ICONES/Pesca.webp'},
-      mina:{l:'Minas',i:'⛏️',c:'#555b6e',img:'Images/ICONES/Mina.webp'}, herbalista:{l:'Herbalistas',i:'🍃',c:'#3f5a2a',img:'Images/ICONES/Herbalista.webp'},
-      hospedagem:{l:'Hospedagens',i:'🏠',c:'#5c3a4a',img:'Images/ICONES/Hospedagem.webp'}, arco:{l:'Campos de Tiro com Arco',i:'🏹',c:'#6b4a1e',img:'Images/ICONES/Arco.webp'},
-      igreja:{l:'Igrejas',i:'⛪',c:'#4a3a5c',img:'Images/ICONES/Igreja.webp'}, desconhecido:{l:'Pontos Desconhecidos',i:'❓',c:'#3a3a4a',img:'Images/ICONES/Desconhecido.webp'},
-      atencao:{l:'Ponto de atenção',i:'⚠️',c:'#8a2323',img:'Images/ICONES/Atencao.webp'},
+      viagem:{l:'Viagem Rápida',i:'🧭',c:'#2f4a5c',img:'Images/ICONES/fast_travel.webp'}, santuario:{l:'Santuários',i:'🕯️',c:'#5c4a2f',img:'Images/ICONES/shrine.webp'},
+      cruz:{l:'Cruzes de Conciliação',i:'✝️',c:'#4a4a4a',img:'Images/ICONES/conciliation_cross.webp'}, mapatesouro:{l:'Mapas do Tesouro',i:'🗺️',c:'#7a5a12',img:'Images/ICONES/treasure_map.webp'},
+      alquimia:{l:'Bancadas de Alquimia',i:'⚗️',c:'#3f5a4a',img:'Images/ICONES/alchemy_bench.webp'}, cama:{l:'Camas',i:'🛏️',c:'#5c3a4a',img:'Images/ICONES/bed.webp'},
+      ferreiro:{l:'Ferreiros',i:'🔨',c:'#4a3a2f',img:'Images/ICONES/blacksmith.webp'}, boticario:{l:'Boticários',i:'🏺',c:'#3a5a5a',img:'Images/ICONES/apothecary.webp'},
+      rebolo:{l:'Rebolos (Amolar)',i:'🔪',c:'#555b6e',img:'Images/ICONES/grindstone.webp'}, arena:{l:'Arenas de Combate',i:'⚔️',c:'#7a2f2f',img:'Images/ICONES/combat_arena.webp'},
+      taverna:{l:'Tavernas',i:'🍺',c:'#6b4a1e',img:'Images/ICONES/tavern.webp'}, caverna:{l:'Cavernas',i:'🕳️',c:'#3a3a4a',img:'Images/ICONES/cave.webp'},
+      acampamento:{l:'Acampamentos',i:'🏕️',c:'#5c4a3a',img:'Images/ICONES/camp.webp'}, jardim:{l:'Jardins Florestais',i:'🌱',c:'#4a6a2a',img:'Images/ICONES/woodland_garden.webp'},
+      bandidos:{l:'Acampamentos de Bandidos',i:'🗡️',c:'#6b2a2a',img:'Images/ICONES/bandit_camp.webp'}, carvoeiro:{l:'Carvoeiros',i:'🔥',c:'#4a3a2f',img:'Images/ICONES/charcoal_burner.webp'},
+      escriba:{l:'Escribas',i:'✒️',c:'#4a3a5c',img:'Images/ICONES/scribe.webp'}, banho:{l:'Casas de Banho',i:'🛁',c:'#3a5a6b',img:'Images/ICONES/baths.webp'},
+      acidente:{l:'Acidentes de Estrada',i:'💀',c:'#5c3a3a',img:'Images/ICONES/accident.webp'}, negociantecavalos:{l:'Negociantes de Cavalos',i:'🐴',c:'#6b5a3a',img:'Images/ICONES/horse_trader.webp'},
+      quitandeiro:{l:'Quitandeiros',i:'🥬',c:'#4a5a2a',img:'Images/ICONES/vegetable_shop.webp'}, moleiro:{l:'Moleiros',i:'🌾',c:'#6b5a3a',img:'Images/ICONES/miller.webp'},
+      padeiro:{l:'Padeiros',i:'🥖',c:'#8a6a2a',img:'Images/ICONES/baker.webp'}, acougueiro:{l:'Açougueiros',i:'🥩',c:'#6b2a2a',img:'Images/ICONES/butcher.webp'},
+      alfaiate:{l:'Alfaiates',i:'🧵',c:'#4a3a5c',img:'Images/ICONES/tailor.webp'}, curtidor:{l:'Curtidores',i:'🧥',c:'#5c4a3a',img:'Images/ICONES/tanner.webp'},
+      sapateiro:{l:'Sapateiros',i:'👞',c:'#4a3a2f',img:'Images/ICONES/cobbler.webp'}, espadeiro:{l:'Espadeiros',i:'🗡️',c:'#555b6e',img:'Images/ICONES/weaponsmith.webp'},
+      armeiro:{l:'Armeiros',i:'🛡️',c:'#4a4a5c',img:'Images/ICONES/armourer.webp'}, cacador:{l:'Caçadores',i:'🥾',c:'#3f5a2a',img:'Images/ICONES/huntsman.webp'},
+      interesse:{l:'Locais de Interesse',i:'🔎',c:'#5c4c2f',img:'Images/ICONES/interesting_site.webp'}, ninho:{l:'Ninhos',i:'🥚',c:'#5c4a3a',img:'Images/ICONES/nest.webp'},
+      tumulo:{l:'Túmulos',i:'⚰️',c:'#4a4a4a',img:'Images/ICONES/grave.webp'}, armadilhapeixe:{l:'Armadilhas de Peixe',i:'🧺',c:'#3a5a6b',img:'Images/ICONES/fish_trap.webp'},
+      colmeia:{l:'Colmeias',i:'🐝',c:'#8a6a12',img:'Images/ICONES/beehive.webp'}, pesca:{l:'Pontos de Pesca',i:'🎣',c:'#2f4a5c',img:'Images/ICONES/fishing_spot.webp'},
+      mina:{l:'Minas',i:'⛏️',c:'#555b6e',img:'Images/ICONES/mine.webp'}, herbalista:{l:'Herbalistas',i:'🍃',c:'#3f5a2a',img:'Images/ICONES/herbalist.webp'},
+      hospedagem:{l:'Hospedagens',i:'🏠',c:'#5c3a4a',img:'Images/ICONES/lodgings.webp'}, arco:{l:'Campos de Tiro com Arco',i:'🏹',c:'#6b4a1e',img:'Images/ICONES/archery_range.webp'},
+      igreja:{l:'Igrejas',i:'⛪',c:'#4a3a5c',img:'Images/ICONES/church.webp'}, desconhecido:{l:'Pontos Desconhecidos',i:'❓',c:'#3a3a4a',img:'Images/ICONES/unknown.webp'},
+      atencao:{l:'Ponto de atenção',i:'⚠️',c:'#8a2323',img:'Images/ICONES/exclamation.webp'},
+      trofeu:{l:'Ponto de Troféu',i:'🏆',c:'#8a6a12',img:'Images/ICONES/Trofeu.webp'},
     };
     const PESS = {l:'Pins Pessoais', i:'📌', c:'#555b6e', img:'Images/ICONES/Pessoal.webp'}; // categoria genérica dos pins pessoais
 
@@ -4404,12 +4354,27 @@ body {
 
     // Pasta das imagens dos pins: no pin escreva só achado:'nome-do-arquivo' (a extensão .webp entra sozinha).
     const ACHADOS_DIR = 'Images/ACHADOS/';
+    const NOMES_DIR = 'Images/ICONES/'; // pasta das imagens de nome das localidades (campo nomeImg do pin)
 
     // PINS oficiais. Campos: id (único), cat (chave de CATS), mapId, pt {x,y} em % da imagem (0–100),
     // name, desc, img (caminho completo) OU achado (nome do arquivo), jump (opcional, ver jump()).
     // Pegue x/y com o "🎯 Modo Calibração". Um pin = um objeto.
     const POIS = [
       // Vazio de propósito: use o "🎯 Modo Calibração" no mapa real para pegar x/y e adicione um objeto por pin aqui.
+      // Nomes de localidades: nomeImg = nome do arquivo .webp (sem extensão) em NOMES_DIR; aparece como rótulo grande no lugar do ícone.
+      { id:'loc-rovna', cat:'locais', mapId:'boemia', pt:{x:31.13,y:20.75}, name:'Rovna', desc:'Localidade: Rovna.', nomeImg:'ROVNA' },
+      { id:'loc-skalitz', cat:'locais', mapId:'boemia', pt:{x:18.09,y:9.67}, name:'Skalitz', desc:'Localidade: Skalitz.', nomeImg:'SKALITZ' },
+      { id:'loc-pribyslavitz', cat:'locais', mapId:'boemia', pt:{x:37.48,y:7.45}, name:'Pribyslavitz', desc:'Localidade: Pribyslavitz.', nomeImg:'PRIBYSLAVITZ' },
+      { id:'loc-samopesh', cat:'locais', mapId:'boemia', pt:{x:28.83,y:47.49}, name:'Samopesh', desc:'Localidade: Samopesh.', nomeImg:'SMAPESH' },
+      { id:'loc-mosteiro', cat:'locais', mapId:'boemia', pt:{x:21.31,y:55.0}, name:'Mosteiro', desc:'Localidade: Mosteiro.', nomeImg:'MONASTERY' },
+      { id:'loc-sasau', cat:'locais', mapId:'boemia', pt:{x:21.17,y:72.17}, name:'Sasau', desc:'Localidade: Sasau.', nomeImg:'SASAU' },
+      { id:'loc-vranik', cat:'locais', mapId:'boemia', pt:{x:24.15,y:78.54}, name:'Vranik', desc:'Localidade: Vranik.', nomeImg:'VRANIK' },
+      { id:'loc-rattay', cat:'locais', mapId:'boemia', pt:{x:64.14,y:87.3}, name:'Rattay', desc:'Localidade: Rattay.', nomeImg:'RATAY' },
+      { id:'loc-ledetchko', cat:'locais', mapId:'boemia', pt:{x:48.14,y:66.77}, name:'Ledetchko', desc:'Localidade: Ledetchko.', nomeImg:'LEDETCHKO' },
+      { id:'loc-neuhof', cat:'locais', mapId:'boemia', pt:{x:85.86,y:65.87}, name:'Neuhof', desc:'Localidade: Neuhof.', nomeImg:'NEUHOF' },
+      { id:'loc-merhojed', cat:'locais', mapId:'boemia', pt:{x:39.09,y:33.76}, name:'Merhojed', desc:'Localidade: Merhojed.', nomeImg:'MERHOJED' },
+      { id:'loc-talmberg', cat:'locais', mapId:'boemia', pt:{x:55.74,y:28.78}, name:'Talmberg', desc:'Localidade: Talmberg.', nomeImg:'TALMBERG' },
+      { id:'loc-uzhitz', cat:'locais', mapId:'boemia', pt:{x:77.88,y:16.8}, name:'Uzhitz', desc:'Localidade: Uzhitz.', nomeImg:'UZHITZ' },
       { id:'alq-rattay', cat:'alquimia', mapId:'boemia', pt:{x:61.1,y:86.6}, name:'Bancada de Alquimia — Rattay', desc:'Bancada de alquimia perto de Rattay.' },
       { id:'bot-rattay', cat:'boticario', mapId:'boemia', pt:{x:61.17,y:86.31}, name:'Boticário — Rattay', desc:'Boticário perto de Rattay.' },
       { id:'desc-rattay', cat:'desconhecido', mapId:'boemia', pt:{x:61.50,y:87.83}, name:'Ponto Desconhecido — Rattay', desc:'Ponto ainda sem identificação, perto de Rattay.' },
@@ -4757,51 +4722,110 @@ body {
       { id:'armadilhapeixe-041', cat:'armadilhapeixe', mapId:'boemia', pt:{x:75.06,y:21.99}, name:'Armadilha de Peixe — Uzhitz (1)', desc:'Armadilha de peixe perto de Uzhitz.' },
       { id:'armadilhapeixe-042', cat:'armadilhapeixe', mapId:'boemia', pt:{x:86.39,y:10.85}, name:'Armadilha de Peixe 42', desc:'Armadilha de peixe. Vila mais próxima no mapa: Uzhitz.' },
       { id:'armadilhapeixe-043', cat:'armadilhapeixe', mapId:'boemia', pt:{x:83.66,y:17.62}, name:'Armadilha de Peixe — Uzhitz (2)', desc:'Armadilha de peixe perto de Uzhitz.' },
-      // ── Artesãos e Lojas (44) ──
-      { id:'artesao-001', cat:'artesao', mapId:'boemia', pt:{x:75.21,y:18.68}, name:'Padeiro — Uzhitz', desc:'Padeiro perto de Uzhitz.' },
-      { id:'artesao-002', cat:'artesao', mapId:'boemia', pt:{x:76.65,y:18.14}, name:'Quitandeiro — Uzhitz (1)', desc:'Quitandeiro perto de Uzhitz.' },
-      { id:'artesao-003', cat:'artesao', mapId:'boemia', pt:{x:48.44,y:67.50}, name:'Quitandeiro — Ledetchko', desc:'Quitandeiro perto de Ledetchko.' },
-      { id:'artesao-004', cat:'artesao', mapId:'boemia', pt:{x:23.11,y:62.15}, name:'Açougueiro — Mosteiro de Sasau', desc:'Açougueiro perto do Mosteiro de Sasau.' },
-      { id:'artesao-005', cat:'artesao', mapId:'boemia', pt:{x:64.15,y:84.21}, name:'Caçador — Rattay', desc:'Caçador perto de Rattay.' },
-      { id:'artesao-006', cat:'artesao', mapId:'boemia', pt:{x:19.45,y:14.88}, name:'Alfaiate — Skalitz', desc:'Alfaiate perto de Skalitz.' },
-      { id:'artesao-007', cat:'artesao', mapId:'boemia', pt:{x:60.04,y:82.79}, name:'Moleiro 7', desc:'Moleiro. Vila mais próxima no mapa: Rattay.' },
-      { id:'artesao-008', cat:'artesao', mapId:'boemia', pt:{x:59.69,y:35.45}, name:'Caçador — Talmberg', desc:'Caçador perto de Talmberg.' },
-      { id:'artesao-009', cat:'artesao', mapId:'boemia', pt:{x:23.23,y:70.35}, name:'Padeiro — Sasau', desc:'Padeiro perto de Sasau.' },
-      { id:'artesao-010', cat:'artesao', mapId:'boemia', pt:{x:68.89,y:69.86}, name:'Moleiro 10', desc:'Moleiro. Vila mais próxima no mapa: Neuhof.' },
-      { id:'artesao-011', cat:'artesao', mapId:'boemia', pt:{x:21.98,y:70.60}, name:'Açougueiro — Sasau (1)', desc:'Açougueiro perto de Sasau.' },
-      { id:'artesao-012', cat:'artesao', mapId:'boemia', pt:{x:65.47,y:85.10}, name:'Sapateiro — Rattay', desc:'Sapateiro perto de Rattay.' },
-      { id:'artesao-013', cat:'artesao', mapId:'boemia', pt:{x:61.50,y:85.68}, name:'Açougueiro — Rattay', desc:'Açougueiro perto de Rattay.' },
-      { id:'artesao-014', cat:'artesao', mapId:'boemia', pt:{x:17.40,y:72.58}, name:'Curtidor — Sasau', desc:'Curtidor perto de Sasau.' },
-      { id:'artesao-015', cat:'artesao', mapId:'boemia', pt:{x:25.20,y:67.56}, name:'Espadeiro — Sasau', desc:'Espadeiro perto de Sasau.' },
-      { id:'artesao-016', cat:'artesao', mapId:'boemia', pt:{x:61.84,y:86.61}, name:'Quitandeiro — Rattay (1)', desc:'Quitandeiro perto de Rattay.' },
-      { id:'artesao-017', cat:'artesao', mapId:'boemia', pt:{x:74.01,y:18.69}, name:'Quitandeiro — Uzhitz (2)', desc:'Quitandeiro perto de Uzhitz.' },
-      { id:'artesao-018', cat:'artesao', mapId:'boemia', pt:{x:39.37,y:54.95}, name:'Moleiro 18', desc:'Moleiro. Vila mais próxima no mapa: Samopesh.' },
-      { id:'artesao-019', cat:'artesao', mapId:'boemia', pt:{x:55.39,y:33.45}, name:'Curtidor — Talmberg', desc:'Curtidor perto de Talmberg.' },
-      { id:'artesao-020', cat:'artesao', mapId:'boemia', pt:{x:61.50,y:86.81}, name:'Alfaiate — Rattay', desc:'Alfaiate perto de Rattay.' },
-      { id:'artesao-021', cat:'artesao', mapId:'boemia', pt:{x:22.62,y:70.97}, name:'Quitandeiro — Sasau (1)', desc:'Quitandeiro perto de Sasau.' },
-      { id:'artesao-022', cat:'artesao', mapId:'boemia', pt:{x:56.74,y:32.54}, name:'Padeiro — Talmberg', desc:'Padeiro perto de Talmberg.' },
-      { id:'artesao-023', cat:'artesao', mapId:'boemia', pt:{x:25.51,y:61.47}, name:'Moleiro — Mosteiro de Sasau (1)', desc:'Moleiro perto do Mosteiro de Sasau.' },
-      { id:'artesao-024', cat:'artesao', mapId:'boemia', pt:{x:21.98,y:71.69}, name:'Alfaiate — Sasau', desc:'Alfaiate perto de Sasau.' },
-      { id:'artesao-025', cat:'artesao', mapId:'boemia', pt:{x:77.18,y:24.22}, name:'Açougueiro — Uzhitz', desc:'Açougueiro perto de Uzhitz.' },
-      { id:'artesao-026', cat:'artesao', mapId:'boemia', pt:{x:51.31,y:70.91}, name:'Curtidor — Ledetchko', desc:'Curtidor perto de Ledetchko.' },
-      { id:'artesao-027', cat:'artesao', mapId:'boemia', pt:{x:62.54,y:85.24}, name:'Quitandeiro — Rattay (2)', desc:'Quitandeiro perto de Rattay.' },
-      { id:'artesao-028', cat:'artesao', mapId:'boemia', pt:{x:58.72,y:83.55}, name:'Curtidor 28', desc:'Curtidor. Vila mais próxima no mapa: Rattay.' },
-      { id:'artesao-029', cat:'artesao', mapId:'boemia', pt:{x:50.21,y:66.81}, name:'Açougueiro — Ledetchko', desc:'Açougueiro perto de Ledetchko.' },
-      { id:'artesao-030', cat:'artesao', mapId:'boemia', pt:{x:21.83,y:70.52}, name:'Armeiro — Sasau', desc:'Armeiro perto de Sasau.' },
-      { id:'artesao-031', cat:'artesao', mapId:'boemia', pt:{x:62.04,y:86.59}, name:'Padeiro — Rattay (1)', desc:'Padeiro perto de Rattay.' },
-      { id:'artesao-032', cat:'artesao', mapId:'boemia', pt:{x:25.16,y:60.52}, name:'Moleiro — Mosteiro de Sasau (2)', desc:'Moleiro perto do Mosteiro de Sasau.' },
-      { id:'artesao-033', cat:'artesao', mapId:'boemia', pt:{x:61.69,y:86.86}, name:'Armeiro — Rattay', desc:'Armeiro perto de Rattay.' },
-      { id:'artesao-034', cat:'artesao', mapId:'boemia', pt:{x:76.71,y:85.27}, name:'Moleiro 34', desc:'Moleiro. Vila mais próxima no mapa: Rattay.' },
-      { id:'artesao-035', cat:'artesao', mapId:'boemia', pt:{x:63.46,y:85.46}, name:'Padeiro — Rattay (2)', desc:'Padeiro perto de Rattay.' },
-      { id:'artesao-036', cat:'artesao', mapId:'boemia', pt:{x:49.61,y:67.70}, name:'Alfaiate — Ledetchko', desc:'Alfaiate perto de Ledetchko.' },
-      { id:'artesao-037', cat:'artesao', mapId:'boemia', pt:{x:62.05,y:86.78}, name:'Espadeiro — Rattay', desc:'Espadeiro perto de Rattay.' },
-      { id:'artesao-038', cat:'artesao', mapId:'boemia', pt:{x:19.99,y:71.30}, name:'Sapateiro — Sasau', desc:'Sapateiro perto de Sasau.' },
-      { id:'artesao-039', cat:'artesao', mapId:'boemia', pt:{x:19.32,y:14.52}, name:'Quitandeiro — Skalitz', desc:'Quitandeiro perto de Skalitz.' },
-      { id:'artesao-040', cat:'artesao', mapId:'boemia', pt:{x:39.11,y:55.07}, name:'Moleiro 40', desc:'Moleiro. Vila mais próxima no mapa: Samopesh.' },
-      { id:'artesao-041', cat:'artesao', mapId:'boemia', pt:{x:22.61,y:68.22}, name:'Açougueiro — Sasau (2)', desc:'Açougueiro perto de Sasau.' },
-      { id:'artesao-042', cat:'artesao', mapId:'boemia', pt:{x:22.30,y:70.29}, name:'Quitandeiro — Sasau (2)', desc:'Quitandeiro perto de Sasau.' },
-      { id:'artesao-043', cat:'artesao', mapId:'boemia', pt:{x:51.67,y:66.84}, name:'Padeiro — Ledetchko', desc:'Padeiro perto de Ledetchko.' },
-      { id:'artesao-044', cat:'artesao', mapId:'boemia', pt:{x:38.91,y:36.10}, name:'Quitandeiro — Merhojed', desc:'Quitandeiro perto de Merhojed.' },
+      // ── Armeiros (2) ──
+      { id:'armeiro-001', cat:'armeiro', mapId:'boemia', pt:{x:21.83,y:70.52}, name:'Armeiro — Sasau', desc:'Armeiro perto de Sasau.' },
+      { id:'armeiro-002', cat:'armeiro', mapId:'boemia', pt:{x:61.69,y:86.86}, name:'Armeiro — Rattay', desc:'Armeiro perto de Rattay.' },
+      // ── Caçadores (2) ──
+      { id:'cacador-001', cat:'cacador', mapId:'boemia', pt:{x:64.15,y:84.21}, name:'Caçador — Rattay', desc:'Caçador perto de Rattay.' },
+      { id:'cacador-002', cat:'cacador', mapId:'boemia', pt:{x:59.69,y:35.45}, name:'Caçador — Talmberg', desc:'Caçador perto de Talmberg.' },
+      // ── Espadeiros (2) ──
+      { id:'espadeiro-001', cat:'espadeiro', mapId:'boemia', pt:{x:25.20,y:67.56}, name:'Espadeiro — Sasau', desc:'Espadeiro perto de Sasau.' },
+      { id:'espadeiro-002', cat:'espadeiro', mapId:'boemia', pt:{x:62.05,y:86.78}, name:'Espadeiro — Rattay', desc:'Espadeiro perto de Rattay.' },
+      // ── Sapateiros (2) ──
+      { id:'sapateiro-001', cat:'sapateiro', mapId:'boemia', pt:{x:65.47,y:85.10}, name:'Sapateiro — Rattay', desc:'Sapateiro perto de Rattay.' },
+      { id:'sapateiro-002', cat:'sapateiro', mapId:'boemia', pt:{x:19.99,y:71.30}, name:'Sapateiro — Sasau', desc:'Sapateiro perto de Sasau.' },
+      // ── Alfaiates (4) ──
+      { id:'alfaiate-001', cat:'alfaiate', mapId:'boemia', pt:{x:19.45,y:14.88}, name:'Alfaiate — Skalitz', desc:'Alfaiate perto de Skalitz.' },
+      { id:'alfaiate-002', cat:'alfaiate', mapId:'boemia', pt:{x:61.50,y:86.81}, name:'Alfaiate — Rattay', desc:'Alfaiate perto de Rattay.' },
+      { id:'alfaiate-003', cat:'alfaiate', mapId:'boemia', pt:{x:21.98,y:71.69}, name:'Alfaiate — Sasau', desc:'Alfaiate perto de Sasau.' },
+      { id:'alfaiate-004', cat:'alfaiate', mapId:'boemia', pt:{x:49.61,y:67.70}, name:'Alfaiate — Ledetchko', desc:'Alfaiate perto de Ledetchko.' },
+      // ── Curtidores (4) ──
+      { id:'curtidor-001', cat:'curtidor', mapId:'boemia', pt:{x:17.40,y:72.58}, name:'Curtidor — Sasau', desc:'Curtidor perto de Sasau.' },
+      { id:'curtidor-002', cat:'curtidor', mapId:'boemia', pt:{x:55.39,y:33.45}, name:'Curtidor — Talmberg', desc:'Curtidor perto de Talmberg.' },
+      { id:'curtidor-003', cat:'curtidor', mapId:'boemia', pt:{x:51.31,y:70.91}, name:'Curtidor — Ledetchko', desc:'Curtidor perto de Ledetchko.' },
+      { id:'curtidor-004', cat:'curtidor', mapId:'boemia', pt:{x:58.72,y:83.55}, name:'Curtidor 4', desc:'Curtidor. Vila mais próxima no mapa: Rattay.' },
+      // ── Açougueiros (6) ──
+      { id:'acougueiro-001', cat:'acougueiro', mapId:'boemia', pt:{x:23.11,y:62.15}, name:'Açougueiro — Mosteiro de Sasau', desc:'Açougueiro perto do Mosteiro de Sasau.' },
+      { id:'acougueiro-002', cat:'acougueiro', mapId:'boemia', pt:{x:21.98,y:70.60}, name:'Açougueiro — Sasau (1)', desc:'Açougueiro perto de Sasau.' },
+      { id:'acougueiro-003', cat:'acougueiro', mapId:'boemia', pt:{x:61.50,y:85.68}, name:'Açougueiro — Rattay', desc:'Açougueiro perto de Rattay.' },
+      { id:'acougueiro-004', cat:'acougueiro', mapId:'boemia', pt:{x:77.18,y:24.22}, name:'Açougueiro — Uzhitz', desc:'Açougueiro perto de Uzhitz.' },
+      { id:'acougueiro-005', cat:'acougueiro', mapId:'boemia', pt:{x:50.21,y:66.81}, name:'Açougueiro — Ledetchko', desc:'Açougueiro perto de Ledetchko.' },
+      { id:'acougueiro-006', cat:'acougueiro', mapId:'boemia', pt:{x:22.61,y:68.22}, name:'Açougueiro — Sasau (2)', desc:'Açougueiro perto de Sasau.' },
+      // ── Padeiros (6) ──
+      { id:'padeiro-001', cat:'padeiro', mapId:'boemia', pt:{x:75.21,y:18.68}, name:'Padeiro — Uzhitz', desc:'Padeiro perto de Uzhitz.' },
+      { id:'padeiro-002', cat:'padeiro', mapId:'boemia', pt:{x:23.23,y:70.35}, name:'Padeiro — Sasau', desc:'Padeiro perto de Sasau.' },
+      { id:'padeiro-003', cat:'padeiro', mapId:'boemia', pt:{x:56.74,y:32.54}, name:'Padeiro — Talmberg', desc:'Padeiro perto de Talmberg.' },
+      { id:'padeiro-004', cat:'padeiro', mapId:'boemia', pt:{x:62.04,y:86.59}, name:'Padeiro — Rattay (1)', desc:'Padeiro perto de Rattay.' },
+      { id:'padeiro-005', cat:'padeiro', mapId:'boemia', pt:{x:63.46,y:85.46}, name:'Padeiro — Rattay (2)', desc:'Padeiro perto de Rattay.' },
+      { id:'padeiro-006', cat:'padeiro', mapId:'boemia', pt:{x:51.67,y:66.84}, name:'Padeiro — Ledetchko', desc:'Padeiro perto de Ledetchko.' },
+      // ── Moleiros (7) ──
+      { id:'moleiro-001', cat:'moleiro', mapId:'boemia', pt:{x:60.04,y:82.79}, name:'Moleiro 1', desc:'Moleiro. Vila mais próxima no mapa: Rattay.' },
+      { id:'moleiro-002', cat:'moleiro', mapId:'boemia', pt:{x:68.89,y:69.86}, name:'Moleiro 2', desc:'Moleiro. Vila mais próxima no mapa: Neuhof.' },
+      { id:'moleiro-003', cat:'moleiro', mapId:'boemia', pt:{x:39.37,y:54.95}, name:'Moleiro 3', desc:'Moleiro. Vila mais próxima no mapa: Samopesh.' },
+      { id:'moleiro-004', cat:'moleiro', mapId:'boemia', pt:{x:25.51,y:61.47}, name:'Moleiro — Mosteiro de Sasau (1)', desc:'Moleiro perto do Mosteiro de Sasau.' },
+      { id:'moleiro-005', cat:'moleiro', mapId:'boemia', pt:{x:25.16,y:60.52}, name:'Moleiro — Mosteiro de Sasau (2)', desc:'Moleiro perto do Mosteiro de Sasau.' },
+      { id:'moleiro-006', cat:'moleiro', mapId:'boemia', pt:{x:76.71,y:85.27}, name:'Moleiro 6', desc:'Moleiro. Vila mais próxima no mapa: Rattay.' },
+      { id:'moleiro-007', cat:'moleiro', mapId:'boemia', pt:{x:39.11,y:55.07}, name:'Moleiro 7', desc:'Moleiro. Vila mais próxima no mapa: Samopesh.' },
+      // ── Quitandeiros (9) ──
+      { id:'quitandeiro-001', cat:'quitandeiro', mapId:'boemia', pt:{x:76.65,y:18.14}, name:'Quitandeiro — Uzhitz (1)', desc:'Quitandeiro perto de Uzhitz.' },
+      { id:'quitandeiro-002', cat:'quitandeiro', mapId:'boemia', pt:{x:48.44,y:67.50}, name:'Quitandeiro — Ledetchko', desc:'Quitandeiro perto de Ledetchko.' },
+      { id:'quitandeiro-003', cat:'quitandeiro', mapId:'boemia', pt:{x:61.84,y:86.61}, name:'Quitandeiro — Rattay (1)', desc:'Quitandeiro perto de Rattay.' },
+      { id:'quitandeiro-004', cat:'quitandeiro', mapId:'boemia', pt:{x:74.01,y:18.69}, name:'Quitandeiro — Uzhitz (2)', desc:'Quitandeiro perto de Uzhitz.' },
+      { id:'quitandeiro-005', cat:'quitandeiro', mapId:'boemia', pt:{x:22.62,y:70.97}, name:'Quitandeiro — Sasau (1)', desc:'Quitandeiro perto de Sasau.' },
+      { id:'quitandeiro-006', cat:'quitandeiro', mapId:'boemia', pt:{x:62.54,y:85.24}, name:'Quitandeiro — Rattay (2)', desc:'Quitandeiro perto de Rattay.' },
+      { id:'quitandeiro-007', cat:'quitandeiro', mapId:'boemia', pt:{x:19.32,y:14.52}, name:'Quitandeiro — Skalitz', desc:'Quitandeiro perto de Skalitz.' },
+      { id:'quitandeiro-008', cat:'quitandeiro', mapId:'boemia', pt:{x:22.30,y:70.29}, name:'Quitandeiro — Sasau (2)', desc:'Quitandeiro perto de Sasau.' },
+      { id:'quitandeiro-009', cat:'quitandeiro', mapId:'boemia', pt:{x:38.91,y:36.10}, name:'Quitandeiro — Merhojed', desc:'Quitandeiro perto de Merhojed.' },
+      // ── Caça de Javalis (22) ──
+      { id:'cacajavalis-001', cat:'cacajavalis', mapId:'boemia', pt:{x:43.11,y:30.65}, name:'Ponto de Caça de Javalis — Merhojed (1)', desc:'Ponto de caça de javalis perto de Merhojed.' },
+      { id:'cacajavalis-002', cat:'cacajavalis', mapId:'boemia', pt:{x:4.39,y:12.54}, name:'Ponto de Caça de Javalis 2', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Skalitz.' },
+      { id:'cacajavalis-003', cat:'cacajavalis', mapId:'boemia', pt:{x:92.50,y:60.12}, name:'Ponto de Caça de Javalis 3', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Neuhof.' },
+      { id:'cacajavalis-004', cat:'cacajavalis', mapId:'boemia', pt:{x:40.60,y:27.52}, name:'Ponto de Caça de Javalis — Merhojed (2)', desc:'Ponto de caça de javalis perto de Merhojed.' },
+      { id:'cacajavalis-005', cat:'cacajavalis', mapId:'boemia', pt:{x:5.90,y:88.65}, name:'Ponto de Caça de Javalis 5', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Vranik.' },
+      { id:'cacajavalis-006', cat:'cacajavalis', mapId:'boemia', pt:{x:89.38,y:88.61}, name:'Ponto de Caça de Javalis 6', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Neuhof.' },
+      { id:'cacajavalis-007', cat:'cacajavalis', mapId:'boemia', pt:{x:86.68,y:49.52}, name:'Ponto de Caça de Javalis 7', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Neuhof.' },
+      { id:'cacajavalis-008', cat:'cacajavalis', mapId:'boemia', pt:{x:63.54,y:95.63}, name:'Ponto de Caça de Javalis — Rattay', desc:'Ponto de caça de javalis perto de Rattay.' },
+      { id:'cacajavalis-009', cat:'cacajavalis', mapId:'boemia', pt:{x:16.90,y:81.58}, name:'Ponto de Caça de Javalis — Vranik (1)', desc:'Ponto de caça de javalis perto de Vranik.' },
+      { id:'cacajavalis-010', cat:'cacajavalis', mapId:'boemia', pt:{x:35.68,y:16.92}, name:'Ponto de Caça de Javalis — Rovna', desc:'Ponto de caça de javalis perto de Rovna.' },
+      { id:'cacajavalis-011', cat:'cacajavalis', mapId:'boemia', pt:{x:9.77,y:11.03}, name:'Ponto de Caça de Javalis 11', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Skalitz.' },
+      { id:'cacajavalis-012', cat:'cacajavalis', mapId:'boemia', pt:{x:37.09,y:57.58}, name:'Ponto de Caça de Javalis 12', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Samopesh.' },
+      { id:'cacajavalis-013', cat:'cacajavalis', mapId:'boemia', pt:{x:16.87,y:81.65}, name:'Ponto de Caça de Javalis — Vranik (2)', desc:'Ponto de caça de javalis perto de Vranik.' },
+      { id:'cacajavalis-014', cat:'cacajavalis', mapId:'boemia', pt:{x:36.76,y:80.14}, name:'Ponto de Caça de Javalis 14', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Vranik.' },
+      { id:'cacajavalis-015', cat:'cacajavalis', mapId:'boemia', pt:{x:29.46,y:66.75}, name:'Ponto de Caça de Javalis 15', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Sasau.' },
+      { id:'cacajavalis-016', cat:'cacajavalis', mapId:'boemia', pt:{x:38.58,y:76.46}, name:'Ponto de Caça de Javalis 16', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Ledetchko.' },
+      { id:'cacajavalis-017', cat:'cacajavalis', mapId:'boemia', pt:{x:44.45,y:72.47}, name:'Ponto de Caça de Javalis — Ledetchko', desc:'Ponto de caça de javalis perto de Ledetchko.' },
+      { id:'cacajavalis-018', cat:'cacajavalis', mapId:'boemia', pt:{x:19.06,y:43.97}, name:'Ponto de Caça de Javalis 18', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Samopesh.' },
+      { id:'cacajavalis-019', cat:'cacajavalis', mapId:'boemia', pt:{x:13.73,y:39.71}, name:'Ponto de Caça de Javalis 19', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Samopesh.' },
+      { id:'cacajavalis-020', cat:'cacajavalis', mapId:'boemia', pt:{x:55.39,y:44.28}, name:'Ponto de Caça de Javalis 20', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Talmberg.' },
+      { id:'cacajavalis-021', cat:'cacajavalis', mapId:'boemia', pt:{x:71.87,y:39.53}, name:'Ponto de Caça de Javalis 21', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Talmberg.' },
+      { id:'cacajavalis-022', cat:'cacajavalis', mapId:'boemia', pt:{x:48.10,y:14.98}, name:'Ponto de Caça de Javalis 22', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Pribyslavitz.' },
+      // ── Caça de Cervos (26) ──
+      { id:'cacacervos-001', cat:'cacacervos', mapId:'boemia', pt:{x:51.65,y:7.81}, name:'Ponto de Caça de Cervos 1', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Pribyslavitz.' },
+      { id:'cacacervos-002', cat:'cacacervos', mapId:'boemia', pt:{x:42.95,y:28.74}, name:'Ponto de Caça de Cervos — Merhojed', desc:'Ponto de caça de cervos perto de Merhojed.' },
+      { id:'cacacervos-003', cat:'cacacervos', mapId:'boemia', pt:{x:33.38,y:3.89}, name:'Ponto de Caça de Cervos — Pribyslavitz', desc:'Ponto de caça de cervos perto de Pribyslavitz.' },
+      { id:'cacacervos-004', cat:'cacacervos', mapId:'boemia', pt:{x:11.71,y:5.72}, name:'Ponto de Caça de Cervos 4', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Skalitz. Ponto de caça ao norte.' },
+      { id:'cacacervos-005', cat:'cacacervos', mapId:'boemia', pt:{x:32.47,y:70.09}, name:'Ponto de Caça de Cervos 5', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Sasau.' },
+      { id:'cacacervos-006', cat:'cacacervos', mapId:'boemia', pt:{x:90.84,y:80.26}, name:'Ponto de Caça de Cervos 6', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Neuhof.' },
+      { id:'cacacervos-007', cat:'cacacervos', mapId:'boemia', pt:{x:77.14,y:49.06}, name:'Ponto de Caça de Cervos 7', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Neuhof.' },
+      { id:'cacacervos-008', cat:'cacacervos', mapId:'boemia', pt:{x:92.01,y:51.31}, name:'Ponto de Caça de Cervos 8', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Neuhof.' },
+      { id:'cacacervos-009', cat:'cacacervos', mapId:'boemia', pt:{x:6.61,y:9.63}, name:'Ponto de Caça de Cervos 9', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Skalitz.' },
+      { id:'cacacervos-010', cat:'cacacervos', mapId:'boemia', pt:{x:23.02,y:51.55}, name:'Ponto de Caça de Cervos — Mosteiro de Sasau (1)', desc:'Ponto de caça de cervos perto do Mosteiro de Sasau.' },
+      { id:'cacacervos-011', cat:'cacacervos', mapId:'boemia', pt:{x:25.80,y:56.39}, name:'Ponto de Caça de Cervos — Mosteiro de Sasau (2)', desc:'Ponto de caça de cervos perto do Mosteiro de Sasau.' },
+      { id:'cacacervos-012', cat:'cacacervos', mapId:'boemia', pt:{x:11.44,y:89.82}, name:'Ponto de Caça de Cervos 12', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Vranik.' },
+      { id:'cacacervos-013', cat:'cacacervos', mapId:'boemia', pt:{x:84.49,y:87.80}, name:'Ponto de Caça de Cervos 13', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Rattay.' },
+      { id:'cacacervos-014', cat:'cacacervos', mapId:'boemia', pt:{x:39.46,y:87.79}, name:'Ponto de Caça de Cervos 14', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Vranik.' },
+      { id:'cacacervos-015', cat:'cacacervos', mapId:'boemia', pt:{x:5.76,y:55.65}, name:'Ponto de Caça de Cervos 15', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Mosteiro de Sasau.' },
+      { id:'cacacervos-016', cat:'cacacervos', mapId:'boemia', pt:{x:45.85,y:59.35}, name:'Ponto de Caça de Cervos — Ledetchko', desc:'Ponto de caça de cervos perto de Ledetchko.' },
+      { id:'cacacervos-017', cat:'cacacervos', mapId:'boemia', pt:{x:8.66,y:44.27}, name:'Ponto de Caça de Cervos 17', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Mosteiro de Sasau.' },
+      { id:'cacacervos-018', cat:'cacacervos', mapId:'boemia', pt:{x:11.30,y:83.72}, name:'Ponto de Caça de Cervos 18', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Vranik.' },
+      { id:'cacacervos-019', cat:'cacacervos', mapId:'boemia', pt:{x:89.93,y:84.14}, name:'Ponto de Caça de Cervos 19', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Neuhof.' },
+      { id:'cacacervos-020', cat:'cacacervos', mapId:'boemia', pt:{x:66.03,y:49.72}, name:'Ponto de Caça de Cervos 20', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Talmberg.' },
+      { id:'cacacervos-021', cat:'cacacervos', mapId:'boemia', pt:{x:66.26,y:35.91}, name:'Ponto de Caça de Cervos 21', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Talmberg.' },
+      { id:'cacacervos-022', cat:'cacacervos', mapId:'boemia', pt:{x:94.08,y:34.63}, name:'Ponto de Caça de Cervos 22', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Uzhitz.' },
+      { id:'cacacervos-023', cat:'cacacervos', mapId:'boemia', pt:{x:80.45,y:41.76}, name:'Ponto de Caça de Cervos 23', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Uzhitz.' },
+      { id:'cacacervos-024', cat:'cacacervos', mapId:'boemia', pt:{x:92.55,y:42.27}, name:'Ponto de Caça de Cervos 24', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Neuhof.' },
+      { id:'cacacervos-025', cat:'cacacervos', mapId:'boemia', pt:{x:83.33,y:42.96}, name:'Ponto de Caça de Cervos 25', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Neuhof.' },
+      { id:'cacacervos-026', cat:'cacacervos', mapId:'boemia', pt:{x:94.80,y:9.64}, name:'Ponto de Caça de Cervos 26', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Uzhitz.' },
       // ── Cruzes de Conciliação (44) ──
       { id:'cruz-001', cat:'cruz', mapId:'boemia', pt:{x:6.86,y:85.56}, name:'Cruz de Conciliação 1', desc:'Cruz de conciliação. Vila mais próxima no mapa: Vranik.' },
       { id:'cruz-002', cat:'cruz', mapId:'boemia', pt:{x:39.54,y:40.68}, name:'Cruz de Conciliação — Merhojed (1)', desc:'Cruz de conciliação perto de Merhojed.' },
@@ -4847,55 +4871,6 @@ body {
       { id:'cruz-042', cat:'cruz', mapId:'boemia', pt:{x:50.52,y:23.22}, name:'Cruz de Conciliação — Talmberg (3)', desc:'Cruz de conciliação perto de Talmberg.' },
       { id:'cruz-043', cat:'cruz', mapId:'boemia', pt:{x:70.30,y:14.66}, name:'Cruz de Conciliação 43', desc:'Cruz de conciliação. Vila mais próxima no mapa: Uzhitz.' },
       { id:'cruz-044', cat:'cruz', mapId:'boemia', pt:{x:33.64,y:10.25}, name:'Cruz de Conciliação — Pribyslavitz', desc:'Cruz de conciliação perto de Pribyslavitz.' },
-      // ── Caça (48) ──
-      { id:'caca-001', cat:'caca', mapId:'boemia', pt:{x:51.65,y:7.81}, name:'Ponto de Caça de Cervos 1', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Pribyslavitz.' },
-      { id:'caca-002', cat:'caca', mapId:'boemia', pt:{x:43.11,y:30.65}, name:'Ponto de Caça de Javalis — Merhojed (1)', desc:'Ponto de caça de javalis perto de Merhojed.' },
-      { id:'caca-003', cat:'caca', mapId:'boemia', pt:{x:42.95,y:28.74}, name:'Ponto de Caça de Cervos — Merhojed', desc:'Ponto de caça de cervos perto de Merhojed.' },
-      { id:'caca-004', cat:'caca', mapId:'boemia', pt:{x:33.38,y:3.89}, name:'Ponto de Caça de Cervos — Pribyslavitz', desc:'Ponto de caça de cervos perto de Pribyslavitz.' },
-      { id:'caca-005', cat:'caca', mapId:'boemia', pt:{x:4.39,y:12.54}, name:'Ponto de Caça de Javalis 5', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Skalitz.' },
-      { id:'caca-006', cat:'caca', mapId:'boemia', pt:{x:11.71,y:5.72}, name:'Ponto de Caça de Cervos 6', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Skalitz. Ponto de caça ao norte.' },
-      { id:'caca-007', cat:'caca', mapId:'boemia', pt:{x:32.47,y:70.09}, name:'Ponto de Caça de Cervos 7', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Sasau.' },
-      { id:'caca-008', cat:'caca', mapId:'boemia', pt:{x:92.50,y:60.12}, name:'Ponto de Caça de Javalis 8', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Neuhof.' },
-      { id:'caca-009', cat:'caca', mapId:'boemia', pt:{x:40.60,y:27.52}, name:'Ponto de Caça de Javalis — Merhojed (2)', desc:'Ponto de caça de javalis perto de Merhojed.' },
-      { id:'caca-010', cat:'caca', mapId:'boemia', pt:{x:5.90,y:88.65}, name:'Ponto de Caça de Javalis 10', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Vranik.' },
-      { id:'caca-011', cat:'caca', mapId:'boemia', pt:{x:89.38,y:88.61}, name:'Ponto de Caça de Javalis 11', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Neuhof.' },
-      { id:'caca-012', cat:'caca', mapId:'boemia', pt:{x:90.84,y:80.26}, name:'Ponto de Caça de Cervos 12', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Neuhof.' },
-      { id:'caca-013', cat:'caca', mapId:'boemia', pt:{x:77.14,y:49.06}, name:'Ponto de Caça de Cervos 13', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Neuhof.' },
-      { id:'caca-014', cat:'caca', mapId:'boemia', pt:{x:86.68,y:49.52}, name:'Ponto de Caça de Javalis 14', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Neuhof.' },
-      { id:'caca-015', cat:'caca', mapId:'boemia', pt:{x:92.01,y:51.31}, name:'Ponto de Caça de Cervos 15', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Neuhof.' },
-      { id:'caca-016', cat:'caca', mapId:'boemia', pt:{x:63.54,y:95.63}, name:'Ponto de Caça de Javalis — Rattay', desc:'Ponto de caça de javalis perto de Rattay.' },
-      { id:'caca-017', cat:'caca', mapId:'boemia', pt:{x:16.90,y:81.58}, name:'Ponto de Caça de Javalis — Vranik (1)', desc:'Ponto de caça de javalis perto de Vranik.' },
-      { id:'caca-018', cat:'caca', mapId:'boemia', pt:{x:35.68,y:16.92}, name:'Ponto de Caça de Javalis — Rovna', desc:'Ponto de caça de javalis perto de Rovna.' },
-      { id:'caca-019', cat:'caca', mapId:'boemia', pt:{x:6.61,y:9.63}, name:'Ponto de Caça de Cervos 19', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Skalitz.' },
-      { id:'caca-020', cat:'caca', mapId:'boemia', pt:{x:9.77,y:11.03}, name:'Ponto de Caça de Javalis 20', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Skalitz.' },
-      { id:'caca-021', cat:'caca', mapId:'boemia', pt:{x:37.09,y:57.58}, name:'Ponto de Caça de Javalis 21', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Samopesh.' },
-      { id:'caca-022', cat:'caca', mapId:'boemia', pt:{x:16.87,y:81.65}, name:'Ponto de Caça de Javalis — Vranik (2)', desc:'Ponto de caça de javalis perto de Vranik.' },
-      { id:'caca-023', cat:'caca', mapId:'boemia', pt:{x:36.76,y:80.14}, name:'Ponto de Caça de Javalis 23', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Vranik.' },
-      { id:'caca-024', cat:'caca', mapId:'boemia', pt:{x:23.02,y:51.55}, name:'Ponto de Caça de Cervos — Mosteiro de Sasau (1)', desc:'Ponto de caça de cervos perto do Mosteiro de Sasau.' },
-      { id:'caca-025', cat:'caca', mapId:'boemia', pt:{x:25.80,y:56.39}, name:'Ponto de Caça de Cervos — Mosteiro de Sasau (2)', desc:'Ponto de caça de cervos perto do Mosteiro de Sasau.' },
-      { id:'caca-026', cat:'caca', mapId:'boemia', pt:{x:11.44,y:89.82}, name:'Ponto de Caça de Cervos 26', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Vranik.' },
-      { id:'caca-027', cat:'caca', mapId:'boemia', pt:{x:29.46,y:66.75}, name:'Ponto de Caça de Javalis 27', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Sasau.' },
-      { id:'caca-028', cat:'caca', mapId:'boemia', pt:{x:84.49,y:87.80}, name:'Ponto de Caça de Cervos 28', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Rattay.' },
-      { id:'caca-029', cat:'caca', mapId:'boemia', pt:{x:39.46,y:87.79}, name:'Ponto de Caça de Cervos 29', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Vranik.' },
-      { id:'caca-030', cat:'caca', mapId:'boemia', pt:{x:5.76,y:55.65}, name:'Ponto de Caça de Cervos 30', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Mosteiro de Sasau.' },
-      { id:'caca-031', cat:'caca', mapId:'boemia', pt:{x:45.85,y:59.35}, name:'Ponto de Caça de Cervos — Ledetchko', desc:'Ponto de caça de cervos perto de Ledetchko.' },
-      { id:'caca-032', cat:'caca', mapId:'boemia', pt:{x:38.58,y:76.46}, name:'Ponto de Caça de Javalis 32', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Ledetchko.' },
-      { id:'caca-033', cat:'caca', mapId:'boemia', pt:{x:44.45,y:72.47}, name:'Ponto de Caça de Javalis — Ledetchko', desc:'Ponto de caça de javalis perto de Ledetchko.' },
-      { id:'caca-034', cat:'caca', mapId:'boemia', pt:{x:8.66,y:44.27}, name:'Ponto de Caça de Cervos 34', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Mosteiro de Sasau.' },
-      { id:'caca-035', cat:'caca', mapId:'boemia', pt:{x:11.30,y:83.72}, name:'Ponto de Caça de Cervos 35', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Vranik.' },
-      { id:'caca-036', cat:'caca', mapId:'boemia', pt:{x:89.93,y:84.14}, name:'Ponto de Caça de Cervos 36', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Neuhof.' },
-      { id:'caca-037', cat:'caca', mapId:'boemia', pt:{x:19.06,y:43.97}, name:'Ponto de Caça de Javalis 37', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Samopesh.' },
-      { id:'caca-038', cat:'caca', mapId:'boemia', pt:{x:13.73,y:39.71}, name:'Ponto de Caça de Javalis 38', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Samopesh.' },
-      { id:'caca-039', cat:'caca', mapId:'boemia', pt:{x:66.03,y:49.72}, name:'Ponto de Caça de Cervos 39', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Talmberg.' },
-      { id:'caca-040', cat:'caca', mapId:'boemia', pt:{x:55.39,y:44.28}, name:'Ponto de Caça de Javalis 40', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Talmberg.' },
-      { id:'caca-041', cat:'caca', mapId:'boemia', pt:{x:66.26,y:35.91}, name:'Ponto de Caça de Cervos 41', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Talmberg.' },
-      { id:'caca-042', cat:'caca', mapId:'boemia', pt:{x:71.87,y:39.53}, name:'Ponto de Caça de Javalis 42', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Talmberg.' },
-      { id:'caca-043', cat:'caca', mapId:'boemia', pt:{x:48.10,y:14.98}, name:'Ponto de Caça de Javalis 43', desc:'Ponto de caça de javalis. Vila mais próxima no mapa: Pribyslavitz.' },
-      { id:'caca-044', cat:'caca', mapId:'boemia', pt:{x:94.08,y:34.63}, name:'Ponto de Caça de Cervos 44', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Uzhitz.' },
-      { id:'caca-045', cat:'caca', mapId:'boemia', pt:{x:80.45,y:41.76}, name:'Ponto de Caça de Cervos 45', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Uzhitz.' },
-      { id:'caca-046', cat:'caca', mapId:'boemia', pt:{x:92.55,y:42.27}, name:'Ponto de Caça de Cervos 46', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Neuhof.' },
-      { id:'caca-047', cat:'caca', mapId:'boemia', pt:{x:83.33,y:42.96}, name:'Ponto de Caça de Cervos 47', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Neuhof.' },
-      { id:'caca-048', cat:'caca', mapId:'boemia', pt:{x:94.80,y:9.64}, name:'Ponto de Caça de Cervos 48', desc:'Ponto de caça de cervos. Vila mais próxima no mapa: Uzhitz.' },
       // ── Santuários (56) ──
       { id:'santuario-001', cat:'santuario', mapId:'boemia', pt:{x:53.60,y:70.92}, name:'Santuário — Ledetchko (1)', desc:'Santuário perto de Ledetchko.' },
       { id:'santuario-002', cat:'santuario', mapId:'boemia', pt:{x:41.46,y:45.32}, name:'Santuário 2', desc:'Santuário. Vila mais próxima no mapa: Merhojed.' },
@@ -5564,6 +5539,7 @@ body {
     // ── Pins ──
     function pinHTML(p) {
       const done = !p.personal && prog[p.id];
+      if (p.nomeImg) return '<div class="pin lbl' + (done?' done':'') + '" style="--c:' + colorOf(p) + '"><span><img class="nome" src="' + NOMES_DIR + p.nomeImg + '.webp" alt="' + p.name + '" data-f="' + ((catInfo(p.cat) || {}).i || '📍') + '" onerror="icoFail(this)"></span></div>' + (done ? '<b class="ok ico">✓</b>' : '');
       return '<div class="pin' + ((catInfo(p.cat) || {}).img ? ' ico' : '') + (done?' done':'') + (p.personal?' pers':'') + '" style="--c:' + colorOf(p) + '"><span>' + iconOf(p) + '</span></div>' + (done ? '<b class="ok' + ((catInfo(p.cat) || {}).img ? ' ico' : '') + '">✓</b>' : '');
     }
     function renderPins() {
@@ -5591,7 +5567,7 @@ body {
     function count(k) { return k === 'pessoal' ? pers.filter(p => p.mapId === S.id).length : POI.filter(p => p.mapId === S.id && p.cat === k).length; }
     function renderCats() {
       const box = $('cats'); box.innerHTML = '';
-      [...Object.keys(CATS), 'pessoal'].forEach(k => {
+      [...Object.keys(CATS), 'pessoal'].sort((a, b) => catInfo(a).l.localeCompare(catInfo(b).l, 'pt-BR')).forEach(k => {
         const i = catInfo(k), n = count(k), b = document.createElement('button');
         b.type = 'button'; b.className = 'cat' + (S.hidden.has(k) ? ' off' : ''); b.style.setProperty('--c', i.c); b.title = i.l + ' (' + n + ')';
         b.innerHTML = '<span>' + catIco(i) + '</span><em>' + n + '</em><small></small>'; b.querySelector('small').textContent = i.l;
