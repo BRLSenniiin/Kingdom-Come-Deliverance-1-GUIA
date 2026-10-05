@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Guia de platina PT-BR de Kingdom Come: Deliverance — troféus perdíveis, mapa interativo, quests, dicas, builds e reputação." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚜️</text></svg>" />
 <title>Kingdom Come: Deliverance — Guia de Platina PT-BR</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -500,6 +502,25 @@ body {
   .dk-done{padding:5px 12px;font-size:.78rem}
   .dk-card.ok .dk-done,.dk-done:hover{background:var(--green);border-color:var(--green-light)}
   .dk-empty{padding:30px;text-align:center;color:var(--parchment-dim);border:1px dashed var(--iron-line);border-radius:14px}
+
+  /* ── Quests: progresso e filtros ── */
+  .qk-chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 10px}
+  .qk-chip,.qk-chk{cursor:pointer;font:inherit;font-size:.8rem;color:var(--parchment);background:var(--bg-card-2);border:1px solid var(--iron-line);border-radius:99px;padding:6px 12px;transition:.2s}
+  .qk-chip:hover,.qk-chk:hover{border-color:var(--gold)}
+  .qk-chip.on{background:var(--gold);color:#15100a;border-color:var(--gold);font-weight:700}
+  .qk-prog{display:flex;align-items:center;gap:12px;margin:8px 0;color:var(--parchment-dim);font-size:.85rem}
+  .qk-bar{flex:1;height:8px;border-radius:99px;background:var(--iron);overflow:hidden}
+  .qk-bar div{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-light));transition:width .4s}
+  .qk-next{margin:6px 0 10px;padding:10px 14px;border-left:3px solid var(--gold);background:var(--gold-dim);border-radius:6px;color:var(--parchment);font-size:.88rem}
+  .qk-gt{cursor:pointer;display:flex;align-items:center;gap:10px}
+  .qk-gp{margin-left:auto;font-size:.8rem;color:var(--gold-light)}
+  .qk-arw{transition:transform .2s}
+  .qk-grp.col .qk-arw{transform:rotate(-90deg)}
+  .qk-grp.col .trophy-row{display:none}
+  .trophy-row.qk-ok{opacity:.55}
+  .qk-ok .qk-chk{background:var(--green);border-color:var(--green-light)}
+  .qk-chk{margin-left:auto;padding:3px 10px}
+
 </style>
 </head>
 <body>
@@ -794,7 +815,7 @@ body {
       <div class="trophy-note">
         Esta página cobre <strong>só secundárias e atividades</strong> — as missões <strong>principais</strong>
         (as ~29 que carregam a história de Henry) não entram aqui, porque são óbvias e lineares por natureza.
-        O que você vê abaixo são as <strong class="gold">~95 secundárias e atividades</strong> do jogo, organizadas
+        O que você vê abaixo são as <strong class="gold">89 secundárias e atividades</strong> do jogo, organizadas
         na ordem provável em que ficam disponíveis durante a campanha, do início ao fim — e depois as expansões
         (DLC), que rodam em paralelo à história principal.
       </div>
@@ -807,10 +828,10 @@ body {
           ordem de <strong>melhor esforço</strong>, não um cronômetro exato quadro a quadro. O jogo é bem não-linear
           e várias secundárias ficam disponíveis em paralelo por um bom tempo.
           <br /><br />
-          Sete missões jogáveis como Theresa no DLC <strong>A Woman's Lot</strong> (Bonum Commune, Cry Wolf!,
-          Matchmaker, Casting Lots, Go and Sin No More, Infernal Dream, The Wicket Gate) não tinham descrição
-          detalhada nem na wiki oficial (marcada como incompleta por lá também) — pra essas, fui honesto na
-          descrição em vez de inventar detalhe de enredo que eu não pude confirmar.
+          No DLC <strong>A Woman's Lot</strong>, Cry Wolf!, Matchmaker e Angel of Mercy são de Theresa; as demais
+          (Madonna of Sasau, Infernal Dream, Casting Lots, Go and Sin No More, Bonum Commune e The Wicket Gate)
+          são a linha de Johanka, jogada com Henry. Conferi essas descrições na wiki do jogo e em guias de troféu;
+          <em>Angel of Mercy</em> ainda não foi conferida.
         </div>
       </div>
 
@@ -842,6 +863,17 @@ body {
           <option value="all">Todas as fases/DLCs</option>
         </select>
       </div>
+      <div class="qk-chips" id="qk-chips">
+        <button type="button" class="qk-chip" data-g="st" data-v="pend">⏳ Pendentes</button>
+        <button type="button" class="qk-chip" data-g="st" data-v="feita">✔ Feitas</button>
+        <button type="button" class="qk-chip" data-g="tr" data-v="1">🏆 Com troféu</button>
+        <button type="button" class="qk-chip" data-g="du" data-v="curta">⏱ Curtas</button>
+        <button type="button" class="qk-chip" data-g="du" data-v="media">⏳ Médias</button>
+        <button type="button" class="qk-chip" data-g="du" data-v="longa">📖 Longas</button>
+        <button type="button" class="qk-chip" data-g="du" data-v="continua">🔁 Contínuas</button>
+      </div>
+      <div class="qk-prog"><span id="qk-pt">0 de 0 feitas</span><div class="qk-bar"><div id="qk-pb"></div></div></div>
+      <div class="qk-next" id="qk-next"></div>
       <div class="trophy-count" id="quest-count"></div>
       <div id="quest-list"></div>
     </div>
@@ -2825,7 +2857,7 @@ body {
       { id: 40, icon: 'gjg5b43e', raridade: 32.58, nome: 'Pecador', desc: 'Fique bêbado com o Padre Godwin.', tipo: 'bronze', dlc: 'base', perdivel: true, nota: 'Missão "Caminhos Misteriosos" — aceite beber com o padre na taverna.' },
       { id: 41, icon: 'dg4b7e13', raridade: 17.51, nome: 'Médico da Peste', desc: 'Cure todos os doentes em Merhojed.', tipo: 'bronze', dlc: 'base', perdivel: true, nota: 'Complete a missão secundária "Pestilência" salvando todo mundo.' },
       { id: 42, icon: 'j04e7g53', raridade: 25.55, nome: 'McLovin', desc: 'Corteje Theresa.', tipo: 'prata', dlc: 'base', perdivel: false },
-      { id: 43, icon: '13gjb606', raridade: 25.29, nome: 'Casanova', desc: 'Corteje Lady Stephanie.', tipo: 'prata', dlc: 'base', perdivel: true, nota: 'Só disponível depois de chegar a Rattay — não pode ser feito no primeiro encontro com ela.' },
+      { id: 43, icon: '13gjb606', raridade: 25.29, nome: 'Casanova', desc: 'Corteje Lady Stephanie.', tipo: 'prata', dlc: 'base', perdivel: true, nota: 'Só disponível depois de chegar a Rattay (missão "Despertar"): volte a Talmberg e fale com ela no andar de cima do castelo — não vale no primeiro encontro, durante a história.' },
       { id: 44, icon: '35j61g01', raridade: 6.05, nome: 'Judas', desc: 'Traia seus amigos na missão Irmãos da Forca.', tipo: 'bronze', dlc: 'base', perdivel: false },
       { id: 45, icon: '77g5b35j', raridade: 9.09, nome: 'Freud', desc: 'Descubra o passado de Erik.', tipo: 'bronze', dlc: 'base', perdivel: true, nota: 'Missão "Valores de Família" — acerte todas as 4 persuasões de Retórica ao interrogar Erik.' },
       { id: 46, icon: '556g0jg5', raridade: 9.42, nome: 'Mestre Caçador', desc: 'Torne-se o Caçador de Talmberg.', tipo: 'bronze', dlc: 'base', perdivel: false },
@@ -3826,7 +3858,7 @@ body {
       amorous: '💘 DLC — AMOROUS ADVENTURES OF BOLD SIR HANS CAPON',
       bastards: '🗡 DLC — BAND OF BASTARDS',
       ashes: '🏗 DLC — FROM THE ASHES',
-      woman: "👩 DLC — A WOMAN'S LOT (missões jogáveis com Theresa)",
+      woman: "👩 DLC — A WOMAN'S LOT (Theresa + linha de Johanka, jogada com Henry)",
     };
     const FASE_QUEST_ORDER = [1,2,3,4,5,6,7,8,9,10,'tournament','amorous','bastards','ashes','woman'];
     const DUR_LABEL = { curta: '⏱ Curta', media: '⏳ Média', longa: '📖 Longa/em cadeia', continua: '🔁 Contínua/repetível' };
@@ -3927,19 +3959,21 @@ body {
       { nome: 'Supplies', desc: 'Reunir os materiais e suprimentos necessários pra reconstrução de Pribyslavitz, prédio por prédio.', giver: 'Reconstrução de Pribyslavitz (atividade)', duracao: 'continua', fase: 'ashes' },
       { nome: 'Judgement', desc: 'Atividade escondida em Pribyslavitz, sem entrada própria no diário de missões — funciona mais como um evento ambiental do que uma missão de verdade.', giver: 'Pribyslavitz (atividade, sem entrada no diário)', duracao: 'continua', fase: 'ashes' },
       // DLC — A WOMAN'S LOT
-      { nome: "The Madonna of Sasau", desc: 'Jogando como Theresa, ela ajuda Johanka a lidar com uma situação delicada no Mosteiro de Sasau.', giver: 'Johanka, Mosteiro de Sasau', duracao: 'longa', fase: 'woman' },
+      { nome: "The Madonna of Sasau", desc: 'Missão-quadro da linha de Johanka, jogada com Henry: ela conta que sonha toda noite com uma caverna perto do castelo de Skalitz, e isso abre Infernal Dream, Casting Lots, Go and Sin No More, Bonum Commune e The Wicket Gate.', giver: 'Johanka, Mosteiro de Sasau', duracao: 'longa', fase: 'woman' },
       { nome: 'Angel of Mercy', desc: 'Theresa auxilia Johanka num caso ligado a cuidado e cura de alguém em situação difícil.', giver: 'Johanka', duracao: 'media', fase: 'woman' },
-      { nome: 'Bonum Commune', desc: 'Theresa se envolve com Pavel de Kolin numa questão de "bem comum" — descrição detalhada não confirmada nas fontes consultadas.', giver: 'Pavel de Kolin', duracao: 'media', fase: 'woman' },
-      { nome: 'Cry Wolf!', desc: 'Theresa investiga um caso de alarme falso ou engano ligado a Johanka — descrição detalhada não confirmada nas fontes consultadas.', giver: 'Johanka', duracao: 'media', fase: 'woman' },
-      { nome: 'Matchmaker', desc: 'Theresa se mete a arranjar um casamento/união pra alguém de sua história — descrição detalhada não confirmada nas fontes consultadas.', giver: 'Johanka', duracao: 'media', fase: 'woman' },
-      { nome: 'Casting Lots', desc: 'Theresa lida com uma disputa ou decisão envolvendo o alfaiate de Sasau e Johanka — descrição detalhada não confirmada nas fontes consultadas.', giver: 'Johanka, alfaiate de Sasau', duracao: 'media', fase: 'woman' },
-      { nome: 'Go, and Sin No More', desc: 'Theresa enfrenta um dilema moral envolvendo Johanka perto de Ledetchko — descrição detalhada não confirmada nas fontes consultadas.', giver: 'Johanka, Ledetchko', duracao: 'media', fase: 'woman' },
-      { nome: 'Infernal Dream', desc: 'Theresa lida com um pesadelo ou visão perturbadora ligada a Johanka no mosteiro — descrição detalhada não confirmada nas fontes consultadas.', giver: 'Johanka, Mosteiro de Sasau', duracao: 'media', fase: 'woman' },
-      { nome: 'The Wicket Gate', desc: 'A história de Theresa leva a uma peregrinação até Uzhitz — descrição detalhada não confirmada nas fontes consultadas.', giver: 'Johanka → peregrinação a Uzhitz', duracao: 'media', fase: 'woman' },
+      { nome: 'Bonum Commune', desc: 'Linha de Johanka (jogada com Henry): achar o tesouro de Pavel de Kolin e doá-lo para o bem comum (o troféu Like a Ghost exige recuperá-lo sem ser descoberto).', giver: 'Johanka, Pavel de Kolin', duracao: 'media', fase: 'woman' },
+      { nome: 'Cry Wolf!', desc: 'Jogando como Theresa: acompanhar Bianca até o bosque para colher beladona (para o Vinho da Salvação de Henry) e atirar no lobo que aparece.', giver: 'Bianca', duracao: 'media', fase: 'woman' },
+      { nome: 'Matchmaker', desc: 'Jogando como Theresa: Johanka pede que ela pegue o dado da sorte de Matthias para devolvê-lo e chamá-lo para dançar; rende gazuas e um dado único.', giver: 'Johanka', duracao: 'media', fase: 'woman' },
+      { nome: 'Casting Lots', desc: 'Linha de Johanka (jogada com Henry): fazer Ambrose, o alfaiate de Sasau, beber o bastante para jogar dados contra você, depois de jurar à esposa dele devolver tudo o que ganhar.', giver: 'Johanka, alfaiate de Sasau', duracao: 'media', fase: 'woman' },
+      { nome: 'Go, and Sin No More', desc: 'Linha de Johanka (jogada com Henry): resgatar Adela, presa nos banhos de Ledetchko, e convencê-la a seguir para Sasau (o troféu Voyeur pode sair durante a missão).', giver: 'Johanka, Ledetchko', duracao: 'media', fase: 'woman' },
+      { nome: 'Infernal Dream', desc: 'Linha de Johanka (jogada com Henry): investigar a caverna do sonho de Johanka perto do castelo de Skalitz; no fim há luta com um bandido vestido de guarda de Skalitz (troféu Infernal Justice).', giver: 'Johanka, Mosteiro de Sasau', duracao: 'media', fase: 'woman' },
+      { nome: 'The Wicket Gate', desc: 'Linha de Johanka (jogada com Henry): peregrinação de penitência até Uzhitz: rezar na igreja, fazer uma doação e buscar o manuscrito prometido pelo Padre Godwin.', giver: 'Johanka → peregrinação a Uzhitz', duracao: 'media', fase: 'woman' },
     ].map((q, i) => ({ id: i + 1, ...q }));
 
     let questSearchTerm = '';
     let questFilterFase = 'all';
+    let qDone = {}, qCol = {}, qF = { st: '', tr: '', du: '' };
+    try { qDone = JSON.parse(localStorage.getItem('kcd_quests_ok') || '{}') || {}; } catch (e) { qDone = {}; }
 
     (function buildQuestFilter() {
       const select = document.getElementById('quest-filter');
@@ -3969,10 +4003,16 @@ body {
           q.giver.toLowerCase().includes(term) ||
           (q.desc || '').toLowerCase().includes(term) ||
           (q.trofeu || '').toLowerCase().includes(term);
-        return matchesFase && matchesSearch;
+        const matchesExtra = (!qF.st || (qF.st === 'feita') === !!qDone[q.id]) && (!qF.tr || q.trofeu) && (!qF.du || q.duracao === qF.du);
+        return matchesFase && matchesSearch && matchesExtra;
       });
 
       document.getElementById('quest-count').textContent = `${filtered.length} DE ${QUESTS_SECUNDARIAS.length} ITENS`;
+      const nFeitas = QUESTS_SECUNDARIAS.filter((q) => qDone[q.id]).length;
+      document.getElementById('qk-pt').textContent = `${nFeitas} de ${QUESTS_SECUNDARIAS.length} feitas`;
+      document.getElementById('qk-pb').style.width = (nFeitas / QUESTS_SECUNDARIAS.length * 100) + '%';
+      const prox = FASE_QUEST_ORDER.map((f) => QUESTS_SECUNDARIAS.find((q) => q.fase === f && !qDone[q.id])).find(Boolean);
+      document.getElementById('qk-next').innerHTML = prox ? `▶ Próxima sugerida: <strong>${prox.nome}</strong> — ${FASE_QUEST_META[prox.fase]}` : '🎉 Tudo marcado como feito!';
       const list = document.getElementById('quest-list');
       if (filtered.length === 0) {
         list.innerHTML = '<div class="trophy-empty">Nenhuma secundária/atividade encontrada com essa busca/filtro.</div>';
@@ -3990,7 +4030,7 @@ body {
         .map((f) => {
           const rows = grupos[f]
             .map((q) => `
-      <div class="trophy-row tipo-${q.trofeu ? 'ouro' : 'prata'}">
+      <div class="trophy-row tipo-${q.trofeu ? 'ouro' : 'prata'}${qDone[q.id] ? ' qk-ok' : ''}">
         <div class="t-badge tipo-${q.trofeu ? 'ouro' : 'prata'}">📜</div>
         <div class="t-body">
           <div class="t-name">${q.nome}</div>
@@ -3999,16 +4039,37 @@ body {
           <div class="t-tags">
             <span class="t-tag tag-tipo">${DUR_LABEL[q.duracao]}</span>
             ${q.trofeu ? `<span class="t-tag tag-tipo">🏆 ${q.trofeu}</span>` : ''}
+            <button type="button" class="qk-chk" data-qid="${q.id}">${qDone[q.id] ? '✔ Feita' : '○ Marcar'}</button>
           </div>
         </div>
       </div>`)
             .join('');
-          return `<div class="dlc-group-title">${FASE_QUEST_META[f]}</div>${rows}`;
+          const tot = QUESTS_SECUNDARIAS.filter((q) => q.fase === f);
+          const ok = tot.filter((q) => qDone[q.id]).length;
+          return `<div class="qk-grp${qCol[f] ? ' col' : ''}"><div class="dlc-group-title qk-gt" data-f="${f}">${FASE_QUEST_META[f]} <span class="qk-gp">${ok}/${tot.length}</span><span class="qk-arw">▾</span></div>${rows}</div>`;
         })
         .join('');
       list.innerHTML = html;
     }
     renderQuests();
+    document.getElementById('qk-chips').addEventListener('click', (e) => {
+      const b = e.target.closest('.qk-chip'); if (!b) return;
+      const g = b.dataset.g, v = b.dataset.v;
+      qF[g] = qF[g] === v ? '' : v;
+      document.querySelectorAll('#qk-chips .qk-chip').forEach((c) => c.classList.toggle('on', qF[c.dataset.g] === c.dataset.v));
+      renderQuests();
+    });
+    document.getElementById('quest-list').addEventListener('click', (e) => {
+      const c = e.target.closest('.qk-chk');
+      if (c) {
+        const id = c.dataset.qid;
+        if (qDone[id]) delete qDone[id]; else qDone[id] = 1;
+        try { localStorage.setItem('kcd_quests_ok', JSON.stringify(qDone)); } catch (err) {}
+        renderQuests(); return;
+      }
+      const t = e.target.closest('.qk-gt');
+      if (t) { qCol[t.dataset.f] = !qCol[t.dataset.f]; renderQuests(); }
+    });
 
     // ═══════════════════════════════════════════════
     //  15. DADOS + RENDER — HABILIDADES & PERKS
